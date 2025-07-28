@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "157576684650",
+    "project_id": "megaviz-chat",
+    "storage_bucket": "megaviz-chat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157576684650:android:a41e78ffc6ab3edc661613",
+        "android_client_info": {
+          "package_name": "com.example.megaviz_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ9wXCBCggtZazoxi61Da5RcBoGKfCcSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
