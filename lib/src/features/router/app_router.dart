@@ -3,6 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:megaviz_chat/src/common/app_widgets/app_scaffold.dart';
+import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/views/sign_in_screen.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/views/widgets/sign_out_button.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:megaviz_chat/src/features/analytics/presentation/providers/analytics_utils_provider.dart';
 import 'package:megaviz_chat/src/features/bottom_navigation/bottom_navigation.dart';
@@ -91,7 +96,7 @@ class AppRouterProvider extends _$AppRouterProvider {
           path: AppRoutes.signIn.path,
           name: AppRoutes.signIn.name,
           parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => Container(),
+          builder: (context, state) => SignInScreen(),
         ),
         StatefulShellRoute.indexedStack(
           parentNavigatorKey: _rootNavigatorKey,
@@ -107,7 +112,10 @@ class AppRouterProvider extends _$AppRouterProvider {
                     return MaterialPage(
                       key: state.pageKey,
                       name: state.name,
-                      child: Container(),
+                      child: AppScaffold(
+                        appBar: AppBar(actions: [const SignOutButton()]),
+                        body: Column(),
+                      ),
                     );
                   },
                 ),
@@ -124,7 +132,7 @@ class AppRouterProvider extends _$AppRouterProvider {
                     return MaterialPage(
                       key: state.pageKey,
                       name: state.name,
-                      child: ProfileScreen(),
+                      child: Container(),
                     );
                   },
                 ),
