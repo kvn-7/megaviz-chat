@@ -12,7 +12,20 @@
           "package_name": "com.example.megaviz_chat"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "157576684650-g6g5934rgn7v8k8hcrt3a5i9a88lmkrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.megaviz_chat",
+            "certificate_hash": "9db02d1e14949011398583e1225cb5f159a7c73f"
+          }
+        },
+        {
+          "client_id": "157576684650-7dvriaf0jr61omr23ichpifmat0lruv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCZ9wXCBCggtZazoxi61Da5RcBoGKfCcSE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157576684650-7dvriaf0jr61omr23ichpifmat0lruv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
