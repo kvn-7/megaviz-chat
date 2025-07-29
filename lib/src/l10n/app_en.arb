@@ -144,5 +144,6 @@
   "total": "Total",
   "portfolio": "Portfolio",
   "profile": "Profile",
-  "chat": "Chat"
+  "chat": "Chat",
+  "chatUsers": "Chat Users"
 }

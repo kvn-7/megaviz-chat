@@ -372,4 +372,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get chat => 'Chat';
+
+  @override
+  String get chatUsers => 'Chat Users';
 }

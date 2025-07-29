@@ -805,6 +805,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Chat'**
   String get chat;
+
+  /// No description provided for @chatUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Users'**
+  String get chatUsers;
 }
 
 class _AppLocalizationsDelegate

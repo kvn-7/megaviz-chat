@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,10 +9,12 @@ import 'package:megaviz_chat/src/features/auth/data/models/auth_user/auth_user_d
 class FirebaseAuthDatasource {
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
+  final FirebaseFirestore _firestore;
 
   FirebaseAuthDatasource()
     : _auth = FirebaseAuth.instance,
-      _googleSignIn = GoogleSignIn(scopes: ['email']);
+      _googleSignIn = GoogleSignIn(scopes: ['email']),
+      _firestore = FirebaseFirestore.instance;
 
   Future<Either<AppException, AuthUserDto>> signInWithGoogle() async {
     try {
@@ -46,6 +49,8 @@ class FirebaseAuthDatasource {
           ),
         );
       }
+
+      await createUserInFirestore();
 
       return Right(AuthUserDto.fromFirebaseUser(user));
     } on FirebaseAuthException catch (e) {
@@ -157,5 +162,40 @@ class FirebaseAuthDatasource {
       if (user == null) return null;
       return AuthUserDto.fromFirebaseUser(user);
     });
+  }
+
+  Future<Either<AppException, void>> createUserInFirestore() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        return Left(
+          AppException(
+            message: 'No authenticated user found',
+            statusCode: 401,
+            identifier: 'no_authenticated_user',
+          ),
+        );
+      }
+
+      final userDoc = _firestore.collection('users').doc(user.uid);
+
+      return userDoc
+          .set({
+            'uid': user.uid,
+            'email': user.email,
+            'displayName': user.displayName,
+            'photoURL': user.photoURL,
+            'createdAt': FieldValue.serverTimestamp(),
+          })
+          .then((_) => Right(null));
+    } catch (e) {
+      return Left(
+        AppException(
+          message: 'Failed to create user in Firestore: ${e.toString()}',
+          statusCode: 500,
+          identifier: 'create_user_firestore_error',
+        ),
+      );
+    }
   }
 }

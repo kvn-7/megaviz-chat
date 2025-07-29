@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:megaviz_chat/src/common/app_widgets/app_scaffold.dart';
 import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/views/sign_in_screen.dart';
-import 'package:megaviz_chat/src/features/auth/presentation/views/widgets/sign_out_button.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/chats_screen.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/chat_users/chat_users_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:megaviz_chat/src/features/analytics/presentation/providers/analytics_utils_provider.dart';
 import 'package:megaviz_chat/src/features/bottom_navigation/bottom_navigation.dart';
@@ -19,7 +19,8 @@ enum AppRoutes {
   initial(name: 'Initial', path: '/'),
   signIn(name: 'SignIn', path: '/sign-in'),
   chat(name: 'Chat', path: '/chat'),
-  profile(name: 'Profile', path: '/profile');
+  profile(name: 'Profile', path: '/profile'),
+  chatUsers(name: 'ChatUsers', path: '/chat-users');
 
   const AppRoutes({required this.name, required this.path});
 
@@ -98,6 +99,12 @@ class AppRouterProvider extends _$AppRouterProvider {
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => SignInScreen(),
         ),
+        GoRoute(
+          path: AppRoutes.chatUsers.path,
+          name: AppRoutes.chatUsers.name,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => ChatUsersScreen(),
+        ),
         StatefulShellRoute.indexedStack(
           parentNavigatorKey: _rootNavigatorKey,
           branches: [
@@ -112,10 +119,7 @@ class AppRouterProvider extends _$AppRouterProvider {
                     return MaterialPage(
                       key: state.pageKey,
                       name: state.name,
-                      child: AppScaffold(
-                        appBar: AppBar(actions: [const SignOutButton()]),
-                        body: Column(),
-                      ),
+                      child: ChatsScreen(),
                     );
                   },
                 ),

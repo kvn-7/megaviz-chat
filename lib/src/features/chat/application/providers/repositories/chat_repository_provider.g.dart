@@ -1,26 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_router.dart';
+part of 'chat_repository_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appRouterProviderHash() => r'a0d7a47156365a58e337347f71eacfbe5f62b658';
+String _$chatRepositoryProviderHash() =>
+    r'054d0373f3456908fc870daa600f489e59d19f3e';
 
-/// See also [AppRouterProvider].
-@ProviderFor(AppRouterProvider)
-final appRouterProvider =
-    AutoDisposeNotifierProvider<AppRouterProvider, GoRouter>.internal(
-      AppRouterProvider.new,
-      name: r'appRouterProvider',
+/// See also [ChatRepositoryProvider].
+@ProviderFor(ChatRepositoryProvider)
+final chatRepositoryProvider =
+    AutoDisposeNotifierProvider<
+      ChatRepositoryProvider,
+      IChatRepository
+    >.internal(
+      ChatRepositoryProvider.new,
+      name: r'chatRepositoryProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$appRouterProviderHash,
+          : _$chatRepositoryProviderHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$AppRouterProvider = AutoDisposeNotifier<GoRouter>;
+typedef _$ChatRepositoryProvider = AutoDisposeNotifier<IChatRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
