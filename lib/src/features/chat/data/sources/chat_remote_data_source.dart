@@ -161,6 +161,7 @@ class ChatRemoteDataSource {
         'senderId': _getUserId(),
         'content': content.toJson(),
         'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
       });
 
       return Right(docRef.id);
@@ -263,6 +264,33 @@ class ChatRemoteDataSource {
           message: 'Failed to get chats stream: ${e.toString()}',
           statusCode: 500,
           identifier: 'getChatsStream',
+        ),
+      );
+    }
+  }
+
+  Future<Either<AppException, void>> markMessagesAsRead(String chatId) async {
+    try {
+      final batch = _firestore.batch();
+      final messagesQuery = _messagesCollection()
+          .where('chatId', isEqualTo: chatId)
+          .where('isRead', isEqualTo: false)
+          .where('senderId', isNotEqualTo: _getUserId());
+
+      final messagesSnapshot = await messagesQuery.get();
+      for (final doc in messagesSnapshot.docs) {
+        batch.update(doc.reference, {'isRead': true});
+      }
+
+      await batch.commit();
+
+      return Right(null);
+    } catch (e) {
+      return Left(
+        AppException(
+          message: 'Failed to mark message as read: ${e.toString()}',
+          statusCode: 500,
+          identifier: 'markMessageAsRead',
         ),
       );
     }

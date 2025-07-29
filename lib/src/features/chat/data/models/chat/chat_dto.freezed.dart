@@ -550,7 +550,7 @@ as String?,
 /// @nodoc
 mixin _$ChatMessageDto {
 
- String get id; String get chatId; ChatMessageContentDto get content;@TimestampConverter() DateTime get timestamp; String get senderId;
+ String get id; String get chatId; ChatMessageContentDto get content;@TimestampConverter() DateTime get timestamp; String get senderId; bool get isRead;
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -563,16 +563,16 @@ $ChatMessageDtoCopyWith<ChatMessageDto> get copyWith => _$ChatMessageDtoCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageDto&&(identical(other.id, id) || other.id == id)&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.senderId, senderId) || other.senderId == senderId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageDto&&(identical(other.id, id) || other.id == id)&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.isRead, isRead) || other.isRead == isRead));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,chatId,content,timestamp,senderId);
+int get hashCode => Object.hash(runtimeType,id,chatId,content,timestamp,senderId,isRead);
 
 @override
 String toString() {
-  return 'ChatMessageDto(id: $id, chatId: $chatId, content: $content, timestamp: $timestamp, senderId: $senderId)';
+  return 'ChatMessageDto(id: $id, chatId: $chatId, content: $content, timestamp: $timestamp, senderId: $senderId, isRead: $isRead)';
 }
 
 
@@ -583,7 +583,7 @@ abstract mixin class $ChatMessageDtoCopyWith<$Res>  {
   factory $ChatMessageDtoCopyWith(ChatMessageDto value, $Res Function(ChatMessageDto) _then) = _$ChatMessageDtoCopyWithImpl;
 @useResult
 $Res call({
- String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId
+ String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId, bool isRead
 });
 
 
@@ -600,14 +600,15 @@ class _$ChatMessageDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? chatId = null,Object? content = null,Object? timestamp = null,Object? senderId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? chatId = null,Object? content = null,Object? timestamp = null,Object? senderId = null,Object? isRead = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,chatId: null == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as ChatMessageContentDto,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
-as String,
+as String,isRead: null == isRead ? _self.isRead : isRead // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of ChatMessageDto
@@ -701,10 +702,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId,  bool isRead)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
-return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
+return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId,_that.isRead);case _:
   return orElse();
 
 }
@@ -722,10 +723,10 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId,  bool isRead)  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto():
-return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
+return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId,_that.isRead);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -742,10 +743,10 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId,  bool isRead)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
-return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
+return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId,_that.isRead);case _:
   return null;
 
 }
@@ -757,7 +758,7 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 @JsonSerializable()
 
 class _ChatMessageDto implements ChatMessageDto {
-  const _ChatMessageDto({required this.id, required this.chatId, required this.content, @TimestampConverter() required this.timestamp, required this.senderId});
+  const _ChatMessageDto({required this.id, required this.chatId, required this.content, @TimestampConverter() required this.timestamp, required this.senderId, this.isRead = false});
   factory _ChatMessageDto.fromJson(Map<String, dynamic> json) => _$ChatMessageDtoFromJson(json);
 
 @override final  String id;
@@ -765,6 +766,7 @@ class _ChatMessageDto implements ChatMessageDto {
 @override final  ChatMessageContentDto content;
 @override@TimestampConverter() final  DateTime timestamp;
 @override final  String senderId;
+@override@JsonKey() final  bool isRead;
 
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
@@ -779,16 +781,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageDto&&(identical(other.id, id) || other.id == id)&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.senderId, senderId) || other.senderId == senderId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageDto&&(identical(other.id, id) || other.id == id)&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.isRead, isRead) || other.isRead == isRead));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,chatId,content,timestamp,senderId);
+int get hashCode => Object.hash(runtimeType,id,chatId,content,timestamp,senderId,isRead);
 
 @override
 String toString() {
-  return 'ChatMessageDto(id: $id, chatId: $chatId, content: $content, timestamp: $timestamp, senderId: $senderId)';
+  return 'ChatMessageDto(id: $id, chatId: $chatId, content: $content, timestamp: $timestamp, senderId: $senderId, isRead: $isRead)';
 }
 
 
@@ -799,7 +801,7 @@ abstract mixin class _$ChatMessageDtoCopyWith<$Res> implements $ChatMessageDtoCo
   factory _$ChatMessageDtoCopyWith(_ChatMessageDto value, $Res Function(_ChatMessageDto) _then) = __$ChatMessageDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId
+ String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId, bool isRead
 });
 
 
@@ -816,14 +818,15 @@ class __$ChatMessageDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? chatId = null,Object? content = null,Object? timestamp = null,Object? senderId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? chatId = null,Object? content = null,Object? timestamp = null,Object? senderId = null,Object? isRead = null,}) {
   return _then(_ChatMessageDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,chatId: null == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as ChatMessageContentDto,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,senderId: null == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
-as String,
+as String,isRead: null == isRead ? _self.isRead : isRead // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

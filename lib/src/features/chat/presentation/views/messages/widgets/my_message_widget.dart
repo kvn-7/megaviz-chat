@@ -96,6 +96,16 @@ class MyMessageWidget extends StatelessWidget {
                     text: message.timestamp.timeString,
                     style: context.textTheme.bodySmall?.copyWith(fontSize: 10),
                   ),
+                  const WidgetSpan(child: AppSpaces.h4),
+                  WidgetSpan(
+                    child: Icon(
+                      message.isRead ? Icons.done_all : Icons.done,
+                      size: 12,
+                      color: message.isRead
+                          ? Colors.blue
+                          : context.textTheme.bodySmall?.color,
+                    ),
+                  ),
                 ],
               ),
             ),

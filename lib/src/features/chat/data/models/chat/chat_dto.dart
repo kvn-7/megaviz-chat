@@ -46,6 +46,7 @@ abstract class ChatMessageDto with _$ChatMessageDto {
     required ChatMessageContentDto content,
     @TimestampConverter() required DateTime timestamp,
     required String senderId,
+    @Default(false) bool isRead,
   }) = _ChatMessageDto;
 
   factory ChatMessageDto.fromJson(Map<String, dynamic> json) =>
@@ -60,6 +61,7 @@ extension ChatMessageDtoX on ChatMessageDto {
       content: content.toDomain(),
       timestamp: timestamp,
       senderId: senderId,
+      isRead: isRead,
     );
   }
 }

@@ -36,6 +36,7 @@ _ChatMessageDto _$ChatMessageDtoFromJson(Map<String, dynamic> json) =>
       ),
       timestamp: const TimestampConverter().fromJson(json['timestamp']),
       senderId: json['senderId'] as String,
+      isRead: json['isRead'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ChatMessageDtoToJson(
@@ -47,6 +48,7 @@ Map<String, dynamic> _$ChatMessageDtoToJson(
   if (const TimestampConverter().toJson(instance.timestamp) case final value?)
     'timestamp': value,
   'senderId': instance.senderId,
+  'isRead': instance.isRead,
 };
 
 TextContentDto _$TextContentDtoFromJson(Map<String, dynamic> json) =>

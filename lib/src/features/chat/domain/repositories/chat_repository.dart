@@ -14,4 +14,5 @@ abstract class IChatRepository {
   Either<AppException, Stream<List<ChatMessage>>> getMessagesStream(
     String chatId,
   );
+  Future<Either<AppException, void>> markMessagesAsRead(String chatId);
 }

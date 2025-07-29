@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:megaviz_chat/src/common/app_widgets/app_dot.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_image.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_spaces.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/chat_user_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/last_message_provider.dart';
@@ -18,6 +20,9 @@ class ChatWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final message = ref.watch(lastMessageProvider(chat.id)).valueOrNull;
+    final userId = ref.watch(authUserProvider).valueOrNull?.id;
+    final unread =
+        message != null && !message.isRead && userId != message.senderId;
 
     return GestureDetector(
       onTap: () async {
@@ -27,7 +32,9 @@ class ChatWidget extends ConsumerWidget {
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(context.appUiUtils.borderRadius),
-          border: Border.all(color: context.colorScheme.outline),
+          border: Border.all(
+            color: unread ? Colors.green : context.colorScheme.outline,
+          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ref
@@ -63,9 +70,17 @@ class ChatWidget extends ConsumerWidget {
                       ),
                     ),
                     AppSpaces.h8,
-                    AppText(
-                      text: message?.timestamp.verboseTimeOrDate ?? '',
-                      style: context.textTheme.bodySmall,
+                    Column(
+                      children: [
+                        if (unread) ...[
+                          const AppDot(color: Colors.green, size: 8),
+                          AppSpaces.v4,
+                        ],
+                        AppText(
+                          text: message?.timestamp.verboseTimeOrDate ?? '',
+                          style: context.textTheme.bodySmall,
+                        ),
+                      ],
                     ),
                   ],
                 );

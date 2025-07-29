@@ -71,4 +71,11 @@ class ChatRepositoryImpl implements IChatRepository {
       );
     });
   }
+
+  @override
+  Future<Either<AppException, void>> markMessagesAsRead(String chatId) async {
+    final response = await _remoteDataSource.markMessagesAsRead(chatId);
+
+    return response.mapRight((_) {});
+  }
 }

@@ -24,6 +24,7 @@ abstract class ChatMessage with _$ChatMessage {
     required ChatMessageContent content,
     required DateTime timestamp,
     required String senderId,
+    required bool isRead,
   }) = _ChatMessage;
 }
 

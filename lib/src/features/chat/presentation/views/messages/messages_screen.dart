@@ -11,6 +11,7 @@ import 'package:megaviz_chat/src/common/app_widgets/app_text_field.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/chat_user_provider.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/providers/mark_messages_as_read_state_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/messages_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/send_message_state_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/messages/widgets/my_message_widget.dart';
@@ -27,43 +28,13 @@ class MessagesScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useTextEditingController();
-    // final scrollController = useScrollController(); // Add ScrollController hook
 
     final sending = useState(false);
 
     useEffect(() {
-      // ref
-      //     .read(conversationsRepositoryProvider)
-      //     .markAllRead(conversationId: conversation.id);
+      ref.read(markMessagesAsReadStateProvider.notifier).markAsRead(chat.id);
       return null;
     }, []);
-
-    // useEffect(() {
-    //   // scrollController.addListener(() {
-    //   //   if (!context.mounted) return;
-
-    //   //   // Detect if the user has scrolled to the top of the list
-    //   //   if (scrollController.position.atEdge &&
-    //   //       scrollController.position.pixels == 0) {
-    //   //     // Load more messages when at the top
-    //   //     ref.read(messagesProvider(conversation.id).notifier).loadMore();
-    //   //   }
-    //   // });
-    //   // return scrollController.dispose;
-
-    //   void scrollListener() {
-    //     if (scrollController.position.pixels >=
-    //             scrollController.position.maxScrollExtent &&
-    //         !ref.read(messagesProvider(chat.id)).isLoading) {
-    //       ref.read(messagesProvider(chat.id).notifier).loadMore();
-    //     }
-    //   }
-
-    //   scrollController.addListener(scrollListener);
-
-    //   // Clean up the listener when the widget is disposed
-    //   return () => scrollController.removeListener(scrollListener);
-    // }, [scrollController]);
 
     Widget msgTextField() {
       return AppTextField(
@@ -73,10 +44,6 @@ class MessagesScreen extends HookConsumerWidget {
         maxLines: 8,
         maxLength: 1000,
         minLines: 1,
-        // suffix: AppIcon(
-        //   onPressed: () {},
-        //   icon: Icons.attach_file_rounded,
-        // ),
       );
     }
 
