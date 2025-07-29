@@ -26,6 +26,7 @@ class SocialSignInWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(context.appUiUtils.borderRadius),
+          border: Border.all(color: context.colorScheme.outline),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
