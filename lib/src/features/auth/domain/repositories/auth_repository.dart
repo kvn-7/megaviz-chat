@@ -10,4 +10,6 @@ abstract class IAuthRepository {
   Stream<AuthUser?> getAuthUserStream();
 
   Future<void> signOut();
+
+  Future<void> setOnlineOffline(bool isOnline);
 }

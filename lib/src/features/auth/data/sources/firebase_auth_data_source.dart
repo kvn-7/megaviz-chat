@@ -145,6 +145,7 @@ class FirebaseAuthDatasource {
   }
 
   Future<void> signOut() async {
+    await setOnlineOffline(false);
     await _auth.signOut();
     await _googleSignIn.signOut();
   }
@@ -197,5 +198,18 @@ class FirebaseAuthDatasource {
         ),
       );
     }
+  }
+
+  Future<void> setOnlineOffline(bool isOnline) async {
+    final user = _auth.currentUser;
+
+    if (user == null) return;
+
+    final userDoc = _firestore.collection('users').doc(user.uid);
+
+    await userDoc.update({
+      'isOnline': isOnline,
+      'lastSeen': FieldValue.serverTimestamp(),
+    });
   }
 }

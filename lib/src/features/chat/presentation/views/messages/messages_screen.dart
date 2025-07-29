@@ -87,9 +87,23 @@ class MessagesScreen extends HookConsumerWidget {
                     ),
                     AppSpaces.h8,
                     Expanded(
-                      child: AppText(
-                        text: user.name,
-                        style: context.textTheme.titleMedium,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            text: user.name,
+                            style: context.textTheme.titleMedium,
+                          ),
+                          AppSpaces.v4,
+                          AppText(
+                            text: user.isOnline
+                                ? context.appLocalizations.online
+                                : context.appLocalizations.lastSeen(
+                                    user.lastSeen?.verboseTimeOrDate ?? '',
+                                  ),
+                            style: context.textTheme.bodyMedium,
+                          ),
+                        ],
                       ),
                     ),
                   ],

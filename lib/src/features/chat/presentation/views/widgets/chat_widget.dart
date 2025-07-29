@@ -41,13 +41,38 @@ class ChatWidget extends ConsumerWidget {
             .watch(chatUserProvider(chat.userId))
             .when(
               data: (user) {
+                if (user == null) {
+                  return const SizedBox.shrink();
+                }
+
                 return Row(
                   children: [
-                    AppImage.network(
-                      url: user?.photoUrl,
-                      height: 48,
-                      width: 48,
-                      radius: BorderRadius.circular(100),
+                    Stack(
+                      children: [
+                        AppImage.network(
+                          url: user.photoUrl,
+                          height: 48,
+                          width: 48,
+                          radius: BorderRadius.circular(100),
+                        ),
+                        if (user.isOnline)
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 14,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: context.colorScheme.surface,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     AppSpaces.h8,
                     Expanded(
@@ -55,7 +80,7 @@ class ChatWidget extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AppText(
-                            text: user?.name ?? '',
+                            text: user.name,
                             style: context.textTheme.titleMedium,
                           ),
                           AppSpaces.v4,

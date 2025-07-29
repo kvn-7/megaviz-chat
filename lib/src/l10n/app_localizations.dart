@@ -823,6 +823,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Image'**
   String get image;
+
+  /// No description provided for @online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get online;
+
+  /// No description provided for @lastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Seen {time}'**
+  String lastSeen(String time);
 }
 
 class _AppLocalizationsDelegate

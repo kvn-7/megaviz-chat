@@ -147,5 +147,14 @@
   "chat": "Chat",
   "chatUsers": "Chat Users",
   "typeMessage": "Type a message",
-  "image": "Image"
+  "image": "Image",
+  "online": "Online",
+  "lastSeen": "Last Seen {time}",
+  "@lastSeen": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

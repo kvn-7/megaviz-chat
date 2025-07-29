@@ -32,11 +32,32 @@ class ChatUserWidget extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            AppImage.network(
-              url: user.photoUrl,
-              height: 48,
-              width: 48,
-              radius: BorderRadius.circular(100),
+            Stack(
+              children: [
+                AppImage.network(
+                  url: user.photoUrl,
+                  height: 48,
+                  width: 48,
+                  radius: BorderRadius.circular(100),
+                ),
+                if (user.isOnline)
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: context.colorScheme.surface,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
             AppSpaces.h8,
             Expanded(

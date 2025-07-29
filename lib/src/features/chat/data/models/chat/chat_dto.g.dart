@@ -18,6 +18,8 @@ _ChatUserDto _$ChatUserDtoFromJson(Map<String, dynamic> json) => _ChatUserDto(
   uid: json['uid'] as String,
   displayName: json['displayName'] as String,
   photoURL: json['photoURL'] as String?,
+  isOnline: json['isOnline'] as bool? ?? false,
+  lastSeen: const TimestampConverter().fromJson(json['lastSeen']),
 );
 
 Map<String, dynamic> _$ChatUserDtoToJson(_ChatUserDto instance) =>
@@ -25,7 +27,19 @@ Map<String, dynamic> _$ChatUserDtoToJson(_ChatUserDto instance) =>
       'uid': instance.uid,
       'displayName': instance.displayName,
       if (instance.photoURL case final value?) 'photoURL': value,
+      'isOnline': instance.isOnline,
+      if (_$JsonConverterToJson<dynamic, DateTime>(
+            instance.lastSeen,
+            const TimestampConverter().toJson,
+          )
+          case final value?)
+        'lastSeen': value,
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);
 
 _ChatMessageDto _$ChatMessageDtoFromJson(Map<String, dynamic> json) =>
     _ChatMessageDto(

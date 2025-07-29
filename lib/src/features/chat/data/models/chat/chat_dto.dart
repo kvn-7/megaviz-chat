@@ -26,6 +26,8 @@ abstract class ChatUserDto with _$ChatUserDto {
     required String uid,
     required String displayName,
     String? photoURL,
+    @Default(false) bool isOnline,
+    @TimestampConverter() DateTime? lastSeen,
   }) = _ChatUserDto;
 
   factory ChatUserDto.fromJson(Map<String, dynamic> json) =>
@@ -34,7 +36,13 @@ abstract class ChatUserDto with _$ChatUserDto {
 
 extension ChatUserDtoX on ChatUserDto {
   ChatUser toDomain() {
-    return ChatUser(id: uid, name: displayName, photoUrl: photoURL);
+    return ChatUser(
+      id: uid,
+      name: displayName,
+      photoUrl: photoURL,
+      isOnline: isOnline,
+      lastSeen: lastSeen,
+    );
   }
 }
 

@@ -274,7 +274,7 @@ as String,
 /// @nodoc
 mixin _$ChatUser {
 
- String get id; String get name; String? get photoUrl;
+ String get id; String get name; String? get photoUrl; bool get isOnline; DateTime? get lastSeen;
 /// Create a copy of ChatUser
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -285,16 +285,16 @@ $ChatUserCopyWith<ChatUser> get copyWith => _$ChatUserCopyWithImpl<ChatUser>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,photoUrl);
+int get hashCode => Object.hash(runtimeType,id,name,photoUrl,isOnline,lastSeen);
 
 @override
 String toString() {
-  return 'ChatUser(id: $id, name: $name, photoUrl: $photoUrl)';
+  return 'ChatUser(id: $id, name: $name, photoUrl: $photoUrl, isOnline: $isOnline, lastSeen: $lastSeen)';
 }
 
 
@@ -305,7 +305,7 @@ abstract mixin class $ChatUserCopyWith<$Res>  {
   factory $ChatUserCopyWith(ChatUser value, $Res Function(ChatUser) _then) = _$ChatUserCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? photoUrl
+ String id, String name, String? photoUrl, bool isOnline, DateTime? lastSeen
 });
 
 
@@ -322,12 +322,14 @@ class _$ChatUserCopyWithImpl<$Res>
 
 /// Create a copy of ChatUser
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? photoUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? photoUrl = freezed,Object? isOnline = null,Object? lastSeen = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isOnline: null == isOnline ? _self.isOnline : isOnline // ignore: cast_nullable_to_non_nullable
+as bool,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -412,10 +414,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? photoUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? photoUrl,  bool isOnline,  DateTime? lastSeen)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatUser() when $default != null:
-return $default(_that.id,_that.name,_that.photoUrl);case _:
+return $default(_that.id,_that.name,_that.photoUrl,_that.isOnline,_that.lastSeen);case _:
   return orElse();
 
 }
@@ -433,10 +435,10 @@ return $default(_that.id,_that.name,_that.photoUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? photoUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? photoUrl,  bool isOnline,  DateTime? lastSeen)  $default,) {final _that = this;
 switch (_that) {
 case _ChatUser():
-return $default(_that.id,_that.name,_that.photoUrl);case _:
+return $default(_that.id,_that.name,_that.photoUrl,_that.isOnline,_that.lastSeen);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -453,10 +455,10 @@ return $default(_that.id,_that.name,_that.photoUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? photoUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? photoUrl,  bool isOnline,  DateTime? lastSeen)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatUser() when $default != null:
-return $default(_that.id,_that.name,_that.photoUrl);case _:
+return $default(_that.id,_that.name,_that.photoUrl,_that.isOnline,_that.lastSeen);case _:
   return null;
 
 }
@@ -468,12 +470,14 @@ return $default(_that.id,_that.name,_that.photoUrl);case _:
 
 
 class _ChatUser implements ChatUser {
-  const _ChatUser({required this.id, required this.name, this.photoUrl});
+  const _ChatUser({required this.id, required this.name, this.photoUrl, required this.isOnline, required this.lastSeen});
   
 
 @override final  String id;
 @override final  String name;
 @override final  String? photoUrl;
+@override final  bool isOnline;
+@override final  DateTime? lastSeen;
 
 /// Create a copy of ChatUser
 /// with the given fields replaced by the non-null parameter values.
@@ -485,16 +489,16 @@ _$ChatUserCopyWith<_ChatUser> get copyWith => __$ChatUserCopyWithImpl<_ChatUser>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatUser&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,photoUrl);
+int get hashCode => Object.hash(runtimeType,id,name,photoUrl,isOnline,lastSeen);
 
 @override
 String toString() {
-  return 'ChatUser(id: $id, name: $name, photoUrl: $photoUrl)';
+  return 'ChatUser(id: $id, name: $name, photoUrl: $photoUrl, isOnline: $isOnline, lastSeen: $lastSeen)';
 }
 
 
@@ -505,7 +509,7 @@ abstract mixin class _$ChatUserCopyWith<$Res> implements $ChatUserCopyWith<$Res>
   factory _$ChatUserCopyWith(_ChatUser value, $Res Function(_ChatUser) _then) = __$ChatUserCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? photoUrl
+ String id, String name, String? photoUrl, bool isOnline, DateTime? lastSeen
 });
 
 
@@ -522,12 +526,14 @@ class __$ChatUserCopyWithImpl<$Res>
 
 /// Create a copy of ChatUser
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? photoUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? photoUrl = freezed,Object? isOnline = null,Object? lastSeen = freezed,}) {
   return _then(_ChatUser(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isOnline: null == isOnline ? _self.isOnline : isOnline // ignore: cast_nullable_to_non_nullable
+as bool,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

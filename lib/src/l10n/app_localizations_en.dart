@@ -381,4 +381,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get image => 'Image';
+
+  @override
+  String get online => 'Online';
+
+  @override
+  String lastSeen(String time) {
+    return 'Last Seen $time';
+  }
 }

@@ -13,6 +13,8 @@ abstract class ChatUser with _$ChatUser {
     required String id,
     required String name,
     String? photoUrl,
+    required bool isOnline,
+    required DateTime? lastSeen,
   }) = _ChatUser;
 }
 

@@ -35,4 +35,9 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<void> signOut() async {
     await _firebaseAuthDatasource.signOut();
   }
+
+  @override
+  Future<void> setOnlineOffline(bool isOnline) async {
+    await _firebaseAuthDatasource.setOnlineOffline(isOnline);
+  }
 }
