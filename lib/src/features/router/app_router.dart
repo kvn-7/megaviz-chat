@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/views/sign_in_screen.dart';
+import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/chats_screen.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/chat_users/chat_users_screen.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/messages/messages_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:megaviz_chat/src/features/analytics/presentation/providers/analytics_utils_provider.dart';
 import 'package:megaviz_chat/src/features/bottom_navigation/bottom_navigation.dart';
@@ -20,7 +22,8 @@ enum AppRoutes {
   signIn(name: 'SignIn', path: '/sign-in'),
   chat(name: 'Chat', path: '/chat'),
   profile(name: 'Profile', path: '/profile'),
-  chatUsers(name: 'ChatUsers', path: '/chat-users');
+  chatUsers(name: 'ChatUsers', path: '/chat-users'),
+  messages(name: 'Messages', path: '/messages');
 
   const AppRoutes({required this.name, required this.path});
 
@@ -104,6 +107,13 @@ class AppRouterProvider extends _$AppRouterProvider {
           name: AppRoutes.chatUsers.name,
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => ChatUsersScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.messages.path,
+          name: AppRoutes.messages.name,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) =>
+              MessagesScreen(chat: state.extra as Chat),
         ),
         StatefulShellRoute.indexedStack(
           parentNavigatorKey: _rootNavigatorKey,

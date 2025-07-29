@@ -51,4 +51,11 @@ class ChatRepositoryImpl implements IChatRepository {
           dto.map((e) => e.map((chatUser) => chatUser.toDomain()).toList()),
     );
   }
+
+  @override
+  Future<Either<AppException, Chat>> getOrCreateChat(String userId) async {
+    final response = await _remoteDataSource.getOrCreateChat(userId);
+
+    return response.mapRight((dto) => dto.toDomain());
+  }
 }

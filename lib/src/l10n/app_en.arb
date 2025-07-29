@@ -145,5 +145,6 @@
   "portfolio": "Portfolio",
   "profile": "Profile",
   "chat": "Chat",
-  "chatUsers": "Chat Users"
+  "chatUsers": "Chat Users",
+  "typeMessage": "Type a message"
 }

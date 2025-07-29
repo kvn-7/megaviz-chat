@@ -93,8 +93,7 @@ extension ChatMessageContentDtoX on ChatMessageContentDto {
 @freezed
 abstract class SendMessageDto with _$SendMessageDto {
   const factory SendMessageDto({
-    required String? chatId,
-    required String otherUserId,
+    required String chatId,
     required ChatMessageContentDto content,
   }) = _SendMessageDto;
 
@@ -104,7 +103,6 @@ abstract class SendMessageDto with _$SendMessageDto {
   factory SendMessageDto.fromDomain(SendMessage message) {
     return SendMessageDto(
       chatId: message.chatId,
-      otherUserId: message.userId,
       content: ChatMessageContentDto.fromDomain(message.content),
     );
   }

@@ -61,19 +61,14 @@ Map<String, dynamic> _$ImageContentDtoToJson(ImageContentDto instance) =>
 
 _SendMessageDto _$SendMessageDtoFromJson(Map<String, dynamic> json) =>
     _SendMessageDto(
-      chatId: json['chatId'] as String?,
-      otherUserId: json['otherUserId'] as String,
+      chatId: json['chatId'] as String,
       content: ChatMessageContentDto.fromJson(
         json['content'] as Map<String, dynamic>,
       ),
     );
 
 Map<String, dynamic> _$SendMessageDtoToJson(_SendMessageDto instance) =>
-    <String, dynamic>{
-      if (instance.chatId case final value?) 'chatId': value,
-      'otherUserId': instance.otherUserId,
-      'content': instance.content,
-    };
+    <String, dynamic>{'chatId': instance.chatId, 'content': instance.content};
 
 _SendMessageResDto _$SendMessageResDtoFromJson(Map<String, dynamic> json) =>
     _SendMessageResDto(

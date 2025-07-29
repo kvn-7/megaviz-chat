@@ -36,8 +36,7 @@ sealed class ChatMessageContent with _$ChatMessageContent {
 @freezed
 abstract class SendMessage with _$SendMessage {
   const factory SendMessage({
-    required String? chatId,
-    required String userId,
+    required String chatId,
     required ChatMessageContent content,
   }) = _SendMessage;
 }

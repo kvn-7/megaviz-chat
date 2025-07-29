@@ -375,4 +375,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatUsers => 'Chat Users';
+
+  @override
+  String get typeMessage => 'Type a message';
 }

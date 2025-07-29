@@ -103,18 +103,6 @@ class ChatRemoteDataSource {
     try {
       final chatId = message.chatId;
 
-      if (chatId == null) {
-        /// If chatId is null, we need to create a new chat
-        final result = await addChat(message.otherUserId);
-
-        return result.fold((left) => Left(left), (chatId) async {
-          return (await addMessage(chatId, message.content)).mapRight(
-            (messageId) =>
-                SendMessageResDto(chatId: chatId, messageId: messageId),
-          );
-        });
-      }
-
       final result = await addMessage(chatId, message.content);
 
       return result.mapRight(
@@ -194,6 +182,46 @@ class ChatRemoteDataSource {
           message: 'Failed to get available chat users: ${e.toString()}',
           statusCode: 500,
           identifier: 'getAvailableChatUsersStream',
+        ),
+      );
+    }
+  }
+
+  Future<Either<AppException, ChatDto>> getOrCreateChat(String userId) async {
+    try {
+      final snapshot = await _chatsCollection()
+          .where('participantIds', arrayContains: userId)
+          .get();
+
+      final currentUserId = _getUserId();
+
+      final existingChatDoc = snapshot.docs.where((doc) {
+        final participantIds = List<String>.from(doc['participantIds']);
+        return participantIds.contains(currentUserId);
+      }).firstOrNull;
+
+      if (existingChatDoc != null) {
+        return Right(
+          ChatDto.fromJson({
+            ...existingChatDoc.data(),
+            'id': existingChatDoc.id,
+            'userId': userId,
+          }),
+        );
+      }
+
+      final newChatId = await addChat(userId);
+
+      return newChatId.fold(
+        (left) => Left(left),
+        (chatId) => Right(ChatDto(id: chatId, userId: userId)),
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          message: 'Failed to get or create chat: ${e.toString()}',
+          statusCode: 500,
+          identifier: 'getOrCreateChat',
         ),
       );
     }

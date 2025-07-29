@@ -1175,7 +1175,7 @@ as String,
 /// @nodoc
 mixin _$SendMessageDto {
 
- String? get chatId; String get otherUserId; ChatMessageContentDto get content;
+ String get chatId; ChatMessageContentDto get content;
 /// Create a copy of SendMessageDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1188,16 +1188,16 @@ $SendMessageDtoCopyWith<SendMessageDto> get copyWith => _$SendMessageDtoCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendMessageDto&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.otherUserId, otherUserId) || other.otherUserId == otherUserId)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendMessageDto&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,chatId,otherUserId,content);
+int get hashCode => Object.hash(runtimeType,chatId,content);
 
 @override
 String toString() {
-  return 'SendMessageDto(chatId: $chatId, otherUserId: $otherUserId, content: $content)';
+  return 'SendMessageDto(chatId: $chatId, content: $content)';
 }
 
 
@@ -1208,7 +1208,7 @@ abstract mixin class $SendMessageDtoCopyWith<$Res>  {
   factory $SendMessageDtoCopyWith(SendMessageDto value, $Res Function(SendMessageDto) _then) = _$SendMessageDtoCopyWithImpl;
 @useResult
 $Res call({
- String? chatId, String otherUserId, ChatMessageContentDto content
+ String chatId, ChatMessageContentDto content
 });
 
 
@@ -1225,10 +1225,9 @@ class _$SendMessageDtoCopyWithImpl<$Res>
 
 /// Create a copy of SendMessageDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? chatId = freezed,Object? otherUserId = null,Object? content = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? chatId = null,Object? content = null,}) {
   return _then(_self.copyWith(
-chatId: freezed == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
-as String?,otherUserId: null == otherUserId ? _self.otherUserId : otherUserId // ignore: cast_nullable_to_non_nullable
+chatId: null == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as ChatMessageContentDto,
   ));
@@ -1324,10 +1323,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? chatId,  String otherUserId,  ChatMessageContentDto content)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String chatId,  ChatMessageContentDto content)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SendMessageDto() when $default != null:
-return $default(_that.chatId,_that.otherUserId,_that.content);case _:
+return $default(_that.chatId,_that.content);case _:
   return orElse();
 
 }
@@ -1345,10 +1344,10 @@ return $default(_that.chatId,_that.otherUserId,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? chatId,  String otherUserId,  ChatMessageContentDto content)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String chatId,  ChatMessageContentDto content)  $default,) {final _that = this;
 switch (_that) {
 case _SendMessageDto():
-return $default(_that.chatId,_that.otherUserId,_that.content);case _:
+return $default(_that.chatId,_that.content);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1365,10 +1364,10 @@ return $default(_that.chatId,_that.otherUserId,_that.content);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? chatId,  String otherUserId,  ChatMessageContentDto content)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String chatId,  ChatMessageContentDto content)?  $default,) {final _that = this;
 switch (_that) {
 case _SendMessageDto() when $default != null:
-return $default(_that.chatId,_that.otherUserId,_that.content);case _:
+return $default(_that.chatId,_that.content);case _:
   return null;
 
 }
@@ -1380,11 +1379,10 @@ return $default(_that.chatId,_that.otherUserId,_that.content);case _:
 @JsonSerializable()
 
 class _SendMessageDto implements SendMessageDto {
-  const _SendMessageDto({required this.chatId, required this.otherUserId, required this.content});
+  const _SendMessageDto({required this.chatId, required this.content});
   factory _SendMessageDto.fromJson(Map<String, dynamic> json) => _$SendMessageDtoFromJson(json);
 
-@override final  String? chatId;
-@override final  String otherUserId;
+@override final  String chatId;
 @override final  ChatMessageContentDto content;
 
 /// Create a copy of SendMessageDto
@@ -1400,16 +1398,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMessageDto&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.otherUserId, otherUserId) || other.otherUserId == otherUserId)&&(identical(other.content, content) || other.content == content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMessageDto&&(identical(other.chatId, chatId) || other.chatId == chatId)&&(identical(other.content, content) || other.content == content));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,chatId,otherUserId,content);
+int get hashCode => Object.hash(runtimeType,chatId,content);
 
 @override
 String toString() {
-  return 'SendMessageDto(chatId: $chatId, otherUserId: $otherUserId, content: $content)';
+  return 'SendMessageDto(chatId: $chatId, content: $content)';
 }
 
 
@@ -1420,7 +1418,7 @@ abstract mixin class _$SendMessageDtoCopyWith<$Res> implements $SendMessageDtoCo
   factory _$SendMessageDtoCopyWith(_SendMessageDto value, $Res Function(_SendMessageDto) _then) = __$SendMessageDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String? chatId, String otherUserId, ChatMessageContentDto content
+ String chatId, ChatMessageContentDto content
 });
 
 
@@ -1437,10 +1435,9 @@ class __$SendMessageDtoCopyWithImpl<$Res>
 
 /// Create a copy of SendMessageDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? chatId = freezed,Object? otherUserId = null,Object? content = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? chatId = null,Object? content = null,}) {
   return _then(_SendMessageDto(
-chatId: freezed == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
-as String?,otherUserId: null == otherUserId ? _self.otherUserId : otherUserId // ignore: cast_nullable_to_non_nullable
+chatId: null == chatId ? _self.chatId : chatId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as ChatMessageContentDto,
   ));
