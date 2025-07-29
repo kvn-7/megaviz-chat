@@ -30,11 +30,20 @@ class ChatRemoteDataSource {
       final stream = _chatsCollection()
           .where('participantIds', arrayContains: _getUserId())
           .snapshots()
-          .map(
-            (snapshot) => snapshot.docs
-                .map((doc) => ChatDto.fromJson(doc.data()))
-                .toList(),
-          );
+          .map((snapshot) {
+            return snapshot.docs
+                .map(
+                  (doc) => ChatDto.fromJson({
+                    ...doc.data(),
+                    'id': doc.id,
+                    'userId': (doc.data()['participantIds'] as List<dynamic>)
+                        .map((id) => id as String)
+                        .where((id) => id != _getUserId())
+                        .firstOrNull,
+                  }),
+                )
+                .toList();
+          });
 
       return Right(stream);
     } catch (e) {
@@ -59,7 +68,10 @@ class ChatRemoteDataSource {
           .snapshots()
           .map(
             (snapshot) => snapshot.docs
-                .map((doc) => ChatMessageDto.fromJson(doc.data()))
+                .map(
+                  (doc) =>
+                      ChatMessageDto.fromJson({...doc.data(), 'id': doc.id}),
+                )
                 .toList()
                 .firstOrNull,
           );

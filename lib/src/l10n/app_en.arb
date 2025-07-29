@@ -146,5 +146,6 @@
   "profile": "Profile",
   "chat": "Chat",
   "chatUsers": "Chat Users",
-  "typeMessage": "Type a message"
+  "typeMessage": "Type a message",
+  "image": "Image"
 }

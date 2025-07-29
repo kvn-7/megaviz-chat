@@ -378,4 +378,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get typeMessage => 'Type a message';
+
+  @override
+  String get image => 'Image';
 }
