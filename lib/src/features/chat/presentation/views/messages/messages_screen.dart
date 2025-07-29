@@ -3,13 +3,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_icon.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_image.dart';
+import 'package:megaviz_chat/src/common/app_widgets/app_loader.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_scaffold.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_spaces.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text_field.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/chat_user_provider.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/providers/messages_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/send_message_state_provider.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/messages/widgets/my_message_widget.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/messages/widgets/others_message_widget.dart';
 import 'package:megaviz_chat/src/utils/assets/app_assets.dart';
 import 'package:megaviz_chat/src/utils/extensions/app_date_time_extension.dart';
 import 'package:megaviz_chat/src/utils/extensions/context_extensions.dart';
@@ -129,93 +134,70 @@ class MessagesScreen extends HookConsumerWidget {
       ),
       body: Column(
         children: [
-          // Expanded(
-          //   child: ref
-          //       .watch(messagesProvider(req))
-          //       .when(
-          //         skipLoadingOnRefresh: true,
-          //         skipLoadingOnReload: true,
-          //         data: (res) {
-          //           final messages = res.messages.toList().reversed.toList();
+          Expanded(
+            child: ref
+                .watch(messagesProvider(chat.id))
+                .when(
+                  skipLoadingOnRefresh: true,
+                  skipLoadingOnReload: true,
+                  data: (res) {
+                    final messages = res.toList();
 
-          //           // final initialTalk = messages.isEmpty;
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
+                        shrinkWrap: true,
+                        reverse: true,
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          final originalMessages = res.toList();
 
-          //           // if (initialTalk) {
-          //           //   Future.delayed(Duration.zero, () {
-          //           //     // ignore: use_build_context_synchronously
-          //           //     controller.text =
-          //           //         context.appLocalizations.firstMessageText(
-          //           //       conversation.user.name,
-          //           //     );
-          //           //   });
-          //           // }
+                          final msg = messages[index];
 
-          //           return Align(
-          //             alignment: Alignment.bottomCenter,
-          //             child: ListView.builder(
-          //               padding: const EdgeInsets.symmetric(
-          //                 horizontal: 16,
-          //                 vertical: 16,
-          //               ),
-          //               shrinkWrap: true,
-          //               reverse: true,
-          //               controller: scrollController,
-          //               itemCount: messages.length,
-          //               itemBuilder: (context, index) {
-          //                 final originalMessages = res.messages.toList();
+                          final sameDate = isSameDate(
+                            msg: msg,
+                            messages: originalMessages,
+                            index: index,
+                          );
 
-          //                 final msg = messages[index];
+                          final sameUser = isSameUser(
+                            msg: msg,
+                            messages: originalMessages,
+                            index: index,
+                          );
 
-          //                 final sameDate = isSameDate(
-          //                   msg: msg,
-          //                   messages: originalMessages,
-          //                   index: index,
-          //                 );
+                          final userId = ref
+                              .read(authUserProvider)
+                              .valueOrNull
+                              ?.id;
 
-          //                 final sameUser = isSameUser(
-          //                   msg: msg,
-          //                   messages: originalMessages,
-          //                   index: index,
-          //                 );
+                          final myMessage = msg.senderId == userId;
 
-          //                 final showTime = isShowTime(
-          //                   msg: msg,
-          //                   messages: originalMessages,
-          //                   index: index,
-          //                 );
+                          if (myMessage) {
+                            return MyMessageWidget(
+                              message: msg,
+                              sameDate: sameDate,
+                              sameUser: sameUser,
+                            );
+                          }
 
-          //                 final userId = ref
-          //                     .read(authUserProvider)
-          //                     .valueOrNull
-          //                     ?.userId;
-
-          //                 final myMessage = msg.senderId == userId;
-
-          //                 if (myMessage) {
-          //                   return MyMessageWidget(
-          //                     message: msg,
-          //                     sameDate: sameDate,
-          //                     sameUser: sameUser,
-          //                     showTime: showTime,
-          //                   );
-          //                 }
-
-          //                 return OthersMessageWidget(
-          //                   message: msg,
-          //                   sameDate: sameDate,
-          //                   sameUser: sameUser,
-          //                   showTime: showTime,
-          //                   isGroup: false,
-          //                 );
-          //               },
-          //             ),
-          //           );
-          //         },
-          //         error: (error, stackTrace) => Container(),
-          //         loading: AppLoader.new,
-          //       ),
-          // ),
-          Spacer(),
+                          return OthersMessageWidget(
+                            message: msg,
+                            sameDate: sameDate,
+                            sameUser: sameUser,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  error: (error, stackTrace) => Container(),
+                  loading: AppLoader.new,
+                ),
+          ),
           AppSpaces.v8,
           Row(
             children: [
@@ -247,13 +229,21 @@ class MessagesScreen extends HookConsumerWidget {
     required List<ChatMessage> messages,
     required int index,
   }) {
-    messages = messages.toList();
-    index = (messages.length - 1) - index;
-    if (index == 0) return false;
+    // If it's the last message in the list, it should show the date
+    if (index == messages.length - 1) {
+      return false;
+    }
 
-    final previousMsg = messages[index - 1];
-    final sameDate = msg.timestamp.isSameDay(previousMsg.timestamp);
-    return sameDate;
+    // Since the list is reversed in the ListView, we compare with the next message
+    // which is actually the previous message chronologically
+    final nextMessageIndex = index + 1;
+
+    if (nextMessageIndex < messages.length) {
+      final nextMessage = messages[nextMessageIndex];
+      return msg.timestamp.isSameDay(nextMessage.timestamp);
+    }
+
+    return false;
   }
 
   bool isSameUser({
@@ -261,31 +251,20 @@ class MessagesScreen extends HookConsumerWidget {
     required List<ChatMessage> messages,
     required int index,
   }) {
-    messages = messages.toList();
-    index = (messages.length - 1) - index;
+    // If it's the last message in the list, it should show the user
+    if (index == messages.length - 1) {
+      return false;
+    }
 
-    if (index == 0) return false;
+    // Since the list is reversed in the ListView, we compare with the next message
+    // which is actually the previous message chronologically
+    final nextMessageIndex = index + 1;
 
-    final previousMsg = messages[index - 1];
-    final sameUser = msg.senderId == previousMsg.senderId;
-    return sameUser;
-  }
+    if (nextMessageIndex < messages.length) {
+      final nextMessage = messages[nextMessageIndex];
+      return msg.senderId == nextMessage.senderId;
+    }
 
-  bool isShowTime({
-    required ChatMessage msg,
-    required List<ChatMessage> messages,
-    required int index,
-  }) {
-    messages = messages.toList();
-    index = (messages.length - 1) - index;
-
-    if (index == messages.length - 1) return true;
-
-    final nextMsg = messages[index + 1];
-    final sameUser = msg.senderId == nextMsg.senderId;
-
-    final showTime = nextMsg.timestamp.difference(msg.timestamp).inMinutes > 3;
-
-    return showTime || !sameUser;
+    return false;
   }
 }

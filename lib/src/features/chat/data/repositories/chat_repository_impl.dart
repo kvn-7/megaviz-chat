@@ -58,4 +58,17 @@ class ChatRepositoryImpl implements IChatRepository {
 
     return response.mapRight((dto) => dto.toDomain());
   }
+
+  @override
+  Either<AppException, Stream<List<ChatMessage>>> getMessagesStream(
+    String chatId,
+  ) {
+    return _remoteDataSource.getMessagesStream(chatId).mapRight((dto) {
+      return dto.map(
+        (e) => e.map((message) {
+          return message.toDomain();
+        }).toList(),
+      );
+    });
+  }
 }

@@ -226,4 +226,33 @@ class ChatRemoteDataSource {
       );
     }
   }
+
+  Either<AppException, Stream<List<ChatMessageDto>>> getMessagesStream(
+    String chatId,
+  ) {
+    try {
+      final stream = _messagesCollection()
+          .where('chatId', isEqualTo: chatId)
+          .orderBy('timestamp', descending: true)
+          .snapshots()
+          .map((snapshot) {
+            return snapshot.docs
+                .map(
+                  (doc) =>
+                      ChatMessageDto.fromJson({...doc.data(), 'id': doc.id}),
+                )
+                .toList();
+          });
+
+      return Right(stream);
+    } catch (e) {
+      return Left(
+        AppException(
+          message: 'Failed to get chats stream: ${e.toString()}',
+          statusCode: 500,
+          identifier: 'getChatsStream',
+        ),
+      );
+    }
+  }
 }

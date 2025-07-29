@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
+import 'package:megaviz_chat/src/utils/freezed/json_converts.dart';
 
 part 'chat_dto.freezed.dart';
 part 'chat_dto.g.dart';
@@ -43,7 +44,7 @@ abstract class ChatMessageDto with _$ChatMessageDto {
     required String id,
     required String chatId,
     required ChatMessageContentDto content,
-    required DateTime timestamp,
+    @TimestampConverter() required DateTime timestamp,
     required String senderId,
   }) = _ChatMessageDto;
 

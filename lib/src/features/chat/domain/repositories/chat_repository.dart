@@ -11,4 +11,7 @@ abstract class IChatRepository {
   Future<Either<AppException, SendMessageRes>> sendMessage(SendMessage message);
   Either<AppException, Stream<List<ChatUser>>> getAvailableChatUsersStream();
   Future<Either<AppException, Chat>> getOrCreateChat(String userId);
+  Either<AppException, Stream<List<ChatMessage>>> getMessagesStream(
+    String chatId,
+  );
 }

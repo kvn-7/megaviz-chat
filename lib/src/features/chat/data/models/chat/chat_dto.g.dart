@@ -34,18 +34,20 @@ _ChatMessageDto _$ChatMessageDtoFromJson(Map<String, dynamic> json) =>
       content: ChatMessageContentDto.fromJson(
         json['content'] as Map<String, dynamic>,
       ),
-      timestamp: DateTime.parse(json['timestamp'] as String),
+      timestamp: const TimestampConverter().fromJson(json['timestamp']),
       senderId: json['senderId'] as String,
     );
 
-Map<String, dynamic> _$ChatMessageDtoToJson(_ChatMessageDto instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'chatId': instance.chatId,
-      'content': instance.content,
-      'timestamp': instance.timestamp.toIso8601String(),
-      'senderId': instance.senderId,
-    };
+Map<String, dynamic> _$ChatMessageDtoToJson(
+  _ChatMessageDto instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'chatId': instance.chatId,
+  'content': instance.content,
+  if (const TimestampConverter().toJson(instance.timestamp) case final value?)
+    'timestamp': value,
+  'senderId': instance.senderId,
+};
 
 TextContentDto _$TextContentDtoFromJson(Map<String, dynamic> json) =>
     TextContentDto(json['text'] as String, $type: json['type'] as String?);

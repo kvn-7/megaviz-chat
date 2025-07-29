@@ -550,7 +550,7 @@ as String?,
 /// @nodoc
 mixin _$ChatMessageDto {
 
- String get id; String get chatId; ChatMessageContentDto get content; DateTime get timestamp; String get senderId;
+ String get id; String get chatId; ChatMessageContentDto get content;@TimestampConverter() DateTime get timestamp; String get senderId;
 /// Create a copy of ChatMessageDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -583,7 +583,7 @@ abstract mixin class $ChatMessageDtoCopyWith<$Res>  {
   factory $ChatMessageDtoCopyWith(ChatMessageDto value, $Res Function(ChatMessageDto) _then) = _$ChatMessageDtoCopyWithImpl;
 @useResult
 $Res call({
- String id, String chatId, ChatMessageContentDto content, DateTime timestamp, String senderId
+ String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId
 });
 
 
@@ -701,7 +701,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content,  DateTime timestamp,  String senderId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
 return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
@@ -722,7 +722,7 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content,  DateTime timestamp,  String senderId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto():
 return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
@@ -742,7 +742,7 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String chatId,  ChatMessageContentDto content,  DateTime timestamp,  String senderId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String chatId,  ChatMessageContentDto content, @TimestampConverter()  DateTime timestamp,  String senderId)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageDto() when $default != null:
 return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.senderId);case _:
@@ -757,13 +757,13 @@ return $default(_that.id,_that.chatId,_that.content,_that.timestamp,_that.sender
 @JsonSerializable()
 
 class _ChatMessageDto implements ChatMessageDto {
-  const _ChatMessageDto({required this.id, required this.chatId, required this.content, required this.timestamp, required this.senderId});
+  const _ChatMessageDto({required this.id, required this.chatId, required this.content, @TimestampConverter() required this.timestamp, required this.senderId});
   factory _ChatMessageDto.fromJson(Map<String, dynamic> json) => _$ChatMessageDtoFromJson(json);
 
 @override final  String id;
 @override final  String chatId;
 @override final  ChatMessageContentDto content;
-@override final  DateTime timestamp;
+@override@TimestampConverter() final  DateTime timestamp;
 @override final  String senderId;
 
 /// Create a copy of ChatMessageDto
@@ -799,7 +799,7 @@ abstract mixin class _$ChatMessageDtoCopyWith<$Res> implements $ChatMessageDtoCo
   factory _$ChatMessageDtoCopyWith(_ChatMessageDto value, $Res Function(_ChatMessageDto) _then) = __$ChatMessageDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String chatId, ChatMessageContentDto content, DateTime timestamp, String senderId
+ String id, String chatId, ChatMessageContentDto content,@TimestampConverter() DateTime timestamp, String senderId
 });
 
 
