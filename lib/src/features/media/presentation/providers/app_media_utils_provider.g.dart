@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'send_message_state_provider.dart';
+part of 'app_media_utils_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sendMessageStateProviderHash() =>
-    r'8bd9ad9595289376eaf044160118c10effb49e0a';
+String _$appMediaUtilsProviderHash() =>
+    r'19d27f93d465278d94438ff56f4854938e56a0be';
 
-/// See also [SendMessageStateProvider].
-@ProviderFor(SendMessageStateProvider)
-final sendMessageStateProvider =
-    AutoDisposeAsyncNotifierProvider<SendMessageStateProvider, bool>.internal(
-      SendMessageStateProvider.new,
-      name: r'sendMessageStateProvider',
+/// See also [AppMediaUtilsProvider].
+@ProviderFor(AppMediaUtilsProvider)
+final appMediaUtilsProvider =
+    AutoDisposeNotifierProvider<AppMediaUtilsProvider, AppMediaUtils>.internal(
+      AppMediaUtilsProvider.new,
+      name: r'appMediaUtilsProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$sendMessageStateProviderHash,
+          : _$appMediaUtilsProviderHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$SendMessageStateProvider = AutoDisposeAsyncNotifier<bool>;
+typedef _$AppMediaUtilsProvider = AutoDisposeNotifier<AppMediaUtils>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

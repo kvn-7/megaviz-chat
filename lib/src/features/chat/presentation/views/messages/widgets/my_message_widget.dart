@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:megaviz_chat/src/common/app_widgets/app_image.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_spaces.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
@@ -20,11 +21,7 @@ class MyMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        if (!sameDate) dateWidget(context),
-        textMessage(context),
-        // time(context),
-      ],
+      children: [if (!sameDate) dateWidget(context), messageContent(context)],
     );
   }
 
@@ -52,6 +49,14 @@ class MyMessageWidget extends StatelessWidget {
     );
   }
 
+  Widget messageContent(BuildContext context) {
+    if (message.content is ImageContent) {
+      return imageMessage(context);
+    } else {
+      return textMessage(context);
+    }
+  }
+
   Widget textMessage(BuildContext context) {
     final continuous = sameUser && sameDate;
 
@@ -75,7 +80,6 @@ class MyMessageWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: context.colorScheme.secondaryContainer,
-            // color: context.appColors.lightGreyText,
             borderRadius: borderRadius,
           ),
           constraints: BoxConstraints(maxWidth: context.screenWidth * 0.8),
@@ -115,12 +119,76 @@ class MyMessageWidget extends StatelessWidget {
     );
   }
 
-  Widget time(BuildContext context) {
+  Widget imageMessage(BuildContext context) {
+    final continuous = sameUser && sameDate;
+    final imageContent = message.content as ImageContent;
+
+    final borderRadius = BorderRadius.only(
+      bottomLeft: Radius.circular(context.appUiUtils.borderRadius),
+      bottomRight: (!continuous
+          ? Radius.zero
+          : Radius.circular(context.appUiUtils.borderRadius)),
+      topLeft: Radius.circular(context.appUiUtils.borderRadius),
+      topRight: (continuous
+          ? Radius.zero
+          : Radius.circular(context.appUiUtils.borderRadius)),
+    );
+
     return Align(
-      alignment: Alignment.bottomRight,
-      child: AppText(
-        text: message.timestamp.timeString,
-        style: context.textTheme.bodySmall?.copyWith(fontSize: 10),
+      alignment: Alignment.centerRight,
+      child: Card(
+        elevation: 4,
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: context.screenWidth * 0.7,
+            maxHeight: 300,
+          ),
+          child: Stack(
+            children: [
+              AppImage.network(
+                url: imageContent.imageUrl,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                radius: borderRadius,
+              ),
+              Positioned(
+                bottom: 8,
+                right: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        message.timestamp.timeString,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                      AppSpaces.h4,
+                      Icon(
+                        message.isRead ? Icons.done_all : Icons.done,
+                        size: 12,
+                        color: message.isRead ? Colors.blue : Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

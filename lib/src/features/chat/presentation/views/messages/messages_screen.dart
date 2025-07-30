@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,6 +18,7 @@ import 'package:megaviz_chat/src/features/chat/presentation/providers/messages_p
 import 'package:megaviz_chat/src/features/chat/presentation/providers/send_message_state_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/messages/widgets/my_message_widget.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/messages/widgets/others_message_widget.dart';
+import 'package:megaviz_chat/src/features/media/presentation/providers/app_media_utils_provider.dart';
 import 'package:megaviz_chat/src/utils/assets/app_assets.dart';
 import 'package:megaviz_chat/src/utils/extensions/app_date_time_extension.dart';
 import 'package:megaviz_chat/src/utils/extensions/context_extensions.dart';
@@ -30,6 +33,7 @@ class MessagesScreen extends HookConsumerWidget {
     final controller = useTextEditingController();
 
     final sending = useState(false);
+    final uploadingImage = useState(false);
 
     useEffect(() {
       ref.read(markMessagesAsReadStateProvider.notifier).markAsRead(chat.id);
@@ -65,6 +69,36 @@ class MessagesScreen extends HookConsumerWidget {
       sending.value = false;
 
       controller.clear();
+    }
+
+    Future<void> pickAndSendImage() async {
+      if (uploadingImage.value) return;
+
+      try {
+        uploadingImage.value = true;
+
+        final mediaUtils = ref.read(appMediaUtilsProvider);
+        final pickedImage = await mediaUtils.pickImage();
+
+        if (pickedImage != null) {
+          // Generate a unique filename for the image
+          final timestamp = DateTime.now().millisecondsSinceEpoch;
+          final fileName = 'chat_image_$timestamp.jpg';
+          final destinationPath = 'chat_images/${chat.id}/$fileName';
+
+          await ref
+              .read(sendMessageStateProvider.notifier)
+              .sendImageMessage(
+                filePath: pickedImage.path,
+                chatId: chat.id,
+                destinationPath: destinationPath,
+              );
+        }
+      } catch (e) {
+        log('Error picking image: $e');
+      } finally {
+        uploadingImage.value = false;
+      }
     }
 
     return AppScaffold(
@@ -183,10 +217,14 @@ class MessagesScreen extends HookConsumerWidget {
           Row(
             children: [
               AppSpaces.h16,
-              // AppIcon(
-              //   onPressed: () {},
-              //   icon: Icons.attachment_rounded,
-              // ),
+              AppIcon(
+                onPressed: uploadingImage.value ? null : pickAndSendImage,
+                icon: uploadingImage.value
+                    ? Icons.hourglass_empty
+                    : Icons.image,
+                size: 30,
+                color: context.colorScheme.secondary,
+              ),
               Expanded(child: msgTextField()),
               AppSpaces.h8,
               AppIcon(
