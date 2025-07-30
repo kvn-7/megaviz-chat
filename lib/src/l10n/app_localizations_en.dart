@@ -389,4 +389,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String lastSeen(String time) {
     return 'Last Seen $time';
   }
+
+  @override
+  String get logoutAlertTitle => 'Logout';
+
+  @override
+  String get logoutAlertMessage => 'Are you sure you want to logout?';
 }

@@ -8,5 +8,6 @@ abstract class AuthUser with _$AuthUser {
     required String id,
     required String email,
     required String name,
+    required String? photoUrl,
   }) = _AuthUser;
 }

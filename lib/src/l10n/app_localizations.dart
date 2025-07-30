@@ -835,6 +835,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last Seen {time}'**
   String lastSeen(String time);
+
+  /// No description provided for @logoutAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logoutAlertTitle;
+
+  /// No description provided for @logoutAlertMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutAlertMessage;
 }
 
 class _AppLocalizationsDelegate

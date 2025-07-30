@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/views/profile/profile_screen.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/views/sign_in_screen.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/chats_screen.dart';
@@ -146,7 +147,7 @@ class AppRouterProvider extends _$AppRouterProvider {
                     return MaterialPage(
                       key: state.pageKey,
                       name: state.name,
-                      child: Container(),
+                      child: ProfileScreen(),
                     );
                   },
                 ),

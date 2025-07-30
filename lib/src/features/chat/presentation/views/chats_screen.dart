@@ -6,7 +6,6 @@ import 'package:megaviz_chat/src/common/app_widgets/app_loader.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_scaffold.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_spaces.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
-import 'package:megaviz_chat/src/features/auth/presentation/views/widgets/sign_out_button.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/chats_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/widgets/chat_widget.dart';
 import 'package:megaviz_chat/src/features/notifications/presentation/providers/notifications_utils_provider.dart';
@@ -21,10 +20,7 @@ class ChatsScreen extends HookConsumerWidget {
     ref.read(appNotificationUtilsProvider).init(context);
 
     return AppScaffold(
-      appBar: AppBar(
-        title: AppText(text: context.appLocalizations.chat),
-        actions: [SignOutButton()],
-      ),
+      appBar: AppBar(title: AppText(text: context.appLocalizations.chat)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.pushNamed(AppRoutes.chatUsers.name);

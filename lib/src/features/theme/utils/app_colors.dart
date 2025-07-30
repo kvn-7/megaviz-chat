@@ -144,7 +144,7 @@ const _lightColorScheme = ColorScheme(
   tertiaryContainer: Color(0xFFA7FFEB), // pastel mint
   onTertiaryContainer: Color(0xFF00332C), // deep teal
 
-  error: Color.fromRGBO(229, 77, 66, 1), // red-ish version of secondary
+  error: Colors.red, // red-ish version of secondary
   onError: Color(0xFFFFFFFF),
   errorContainer: Color.fromRGBO(255, 217, 213, 1),
   onErrorContainer: Color.fromRGBO(85, 0, 0, 1),

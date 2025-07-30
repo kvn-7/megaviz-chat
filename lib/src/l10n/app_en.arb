@@ -156,5 +156,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "logoutAlertTitle": "Logout",
+  "logoutAlertMessage": "Are you sure you want to logout?"
 }

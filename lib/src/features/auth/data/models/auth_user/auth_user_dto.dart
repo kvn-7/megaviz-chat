@@ -11,6 +11,7 @@ abstract class AuthUserDto with _$AuthUserDto {
     required String id,
     required String email,
     required String name,
+    String? photoUrl,
   }) = _AuthUserDto;
 
   factory AuthUserDto.fromJson(Map<String, dynamic> json) =>
@@ -21,12 +22,13 @@ abstract class AuthUserDto with _$AuthUserDto {
       id: user.uid,
       email: user.email ?? '',
       name: user.displayName ?? '',
+      photoUrl: user.photoURL,
     );
   }
 }
 
 extension AuthUserDtoExtension on AuthUserDto {
   AuthUser toDomain() {
-    return AuthUser(id: id, email: email, name: name);
+    return AuthUser(id: id, email: email, name: name, photoUrl: photoUrl);
   }
 }
