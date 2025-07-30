@@ -9,6 +9,7 @@ import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
 import 'package:megaviz_chat/src/features/auth/presentation/views/widgets/sign_out_button.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/providers/chats_provider.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/widgets/chat_widget.dart';
+import 'package:megaviz_chat/src/features/notifications/presentation/providers/notifications_utils_provider.dart';
 import 'package:megaviz_chat/src/features/router/app_router.dart';
 import 'package:megaviz_chat/src/utils/extensions/context_extensions.dart';
 
@@ -17,6 +18,8 @@ class ChatsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(appNotificationUtilsProvider).init(context);
+
     return AppScaffold(
       appBar: AppBar(
         title: AppText(text: context.appLocalizations.chat),
