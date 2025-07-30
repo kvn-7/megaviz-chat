@@ -70,25 +70,24 @@ class AppButton extends ConsumerWidget {
           //   onPressed();
           // },
           onPressed: enabled ? finalOnPressed : null,
-          // style: ElevatedButton.styleFrom(
-          //   elevation: elevation,
-          //   shadowColor: color,
-          //   minimumSize: Size.zero,
-          //   padding: smallButton && padding == null
-          //       ? const EdgeInsets.symmetric(
-          //           horizontal: 16,
-          //           vertical: 8,
-          //         )
-          //       : padding,
-          //   backgroundColor:
-          //       !enabled ? context.colorScheme.primary.withOpacity(0.25) : color,
-          //   textStyle: textStyle ??
-          //       (smallButton
-          //           ? context.textTheme.titleMedium?.copyWith(
-          //               color: context.colorScheme.onPrimary,
-          //             )
-          //           : null),
-          // ),
+          style: ElevatedButton.styleFrom(
+            elevation: elevation,
+            shadowColor: color,
+            minimumSize: Size.zero,
+            padding: smallButton && padding == null
+                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+                : padding,
+            backgroundColor: !enabled
+                ? context.colorScheme.primary.withOpacity(0.25)
+                : color,
+            textStyle:
+                textStyle ??
+                (smallButton
+                    ? context.textTheme.titleMedium?.copyWith(
+                        color: context.colorScheme.onPrimary,
+                      )
+                    : null),
+          ),
           child: isLoading ?? false
               ? AppLoader(
                   center: false,

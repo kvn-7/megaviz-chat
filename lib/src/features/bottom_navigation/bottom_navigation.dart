@@ -20,8 +20,8 @@ class _BottomNavigationPageState extends ConsumerState<BottomNavigationPage> {
   Widget build(BuildContext context) {
     final items = [
       AppBottomNavItem(
-        path: AppAssets.tasks,
-        label: context.appLocalizations.tasks,
+        path: AppAssets.messages,
+        label: context.appLocalizations.chat,
       ),
       AppBottomNavItem(
         path: AppAssets.profile,

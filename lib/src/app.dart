@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/providers/set_online_offline_status_state_provider.dart';
 import 'package:megaviz_chat/src/features/localization/app_language.dart';
 import 'package:megaviz_chat/src/features/router/app_router.dart';
 import 'package:megaviz_chat/src/features/theme/app_theme.dart';
@@ -14,6 +15,8 @@ class EventTaskManagement extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final themeType =
         ref.watch(appThemeTypeProvider).valueOrNull ?? UserThemeType.light;
+
+    ref.watch(setOnlineOfflineStatusStateProvider);
 
     return MaterialApp.router(
       title: 'MegaViz Chat',

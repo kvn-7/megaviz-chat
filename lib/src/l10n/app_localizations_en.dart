@@ -55,6 +55,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInWithGoogle => 'Sign in with Google';
 
   @override
+  String get signInWithFacebook => 'Sign in with Facebook';
+
+  @override
   String get signInWithApple => 'Sign in with Apple';
 
   @override
@@ -371,107 +374,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile => 'Profile';
 
   @override
-  String get invest => 'Invest';
+  String get chat => 'Chat';
 
   @override
-  String get tasks => 'Tasks';
+  String get chatUsers => 'Chat Users';
 
   @override
-  String get createTask => 'Create Task';
+  String get typeMessage => 'Type a message';
 
   @override
-  String get taskTitle => 'Title';
+  String get image => 'Image';
 
   @override
-  String get taskTitleHint => 'Please enter title';
+  String get online => 'Online';
 
   @override
-  String get taskDescription => 'Description';
+  String lastSeen(String time) {
+    return 'Last Seen $time';
+  }
 
   @override
-  String get taskDescriptionHint => 'Please enter description';
+  String get logoutAlertTitle => 'Logout';
 
   @override
-  String get taskLocation => 'Location';
+  String get logoutAlertMessage => 'Are you sure you want to logout?';
 
   @override
-  String get taskLocationHint => 'Please enter location';
+  String get startNewChat => 'Start New Chat';
 
   @override
-  String get taskDue => 'Due';
-
-  @override
-  String get taskDueHint => 'Please select due date';
-
-  @override
-  String get taskPriority => 'Priority';
-
-  @override
-  String get taskPriorityHint => 'Please select priority';
-
-  @override
-  String get taskAssignee => 'Assignee';
-
-  @override
-  String get taskAssigneeHint => 'Please select assignee';
-
-  @override
-  String get taskStatus => 'Status';
-
-  @override
-  String get change => 'Change';
-
-  @override
-  String get low => 'Low';
-
-  @override
-  String get medium => 'Medium';
-
-  @override
-  String get high => 'High';
-
-  @override
-  String get taskCreatedSuccessfully => 'Task created successfully';
-
-  @override
-  String get tasksFilter => 'Tasks Filter';
-
-  @override
-  String get clearAll => 'Clear All';
-
-  @override
-  String get apply => 'Apply';
-
-  @override
-  String get dueDateFrom => 'Due Date From';
-
-  @override
-  String get dueDateTo => 'Due Date To';
-
-  @override
-  String get markAsComplete => 'Mark as Complete';
-
-  @override
-  String get markAsPending => 'Mark as Pending';
-
-  @override
-  String get markAsInProgress => 'Mark as In Progress';
-
-  @override
-  String get pending => 'Pending';
-
-  @override
-  String get inProgress => 'In Progress';
-
-  @override
-  String get completed => 'Completed';
-
-  @override
-  String get agent => 'Agent';
-
-  @override
-  String get admin => 'Admin';
-
-  @override
-  String get userRole => 'Role';
+  String get noUsersFound => 'No other users found';
 }

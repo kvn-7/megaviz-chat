@@ -7,7 +7,7 @@ part of 'app_language.dart';
 // **************************************************************************
 
 String _$appLanguageProviderHash() =>
-    r'de1c25c868adfd72b65fbdb5ae5b958c027a44d9';
+    r'a67a0af2d57cdef4ff60710c18654d73a92aa38a';
 
 /// See also [AppLanguageProvider].
 @ProviderFor(AppLanguageProvider)

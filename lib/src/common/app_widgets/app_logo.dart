@@ -12,7 +12,7 @@ class AppLogo extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'EveTask',
+            text: 'MegaViz Chat',
             style: context.textTheme.titleLarge?.copyWith(
               color: context.colorScheme.primary,
               letterSpacing: 3,

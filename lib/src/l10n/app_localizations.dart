@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'Sign in with Google'**
   String get signInWithGoogle;
 
+  /// No description provided for @signInWithFacebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Facebook'**
+  String get signInWithFacebook;
+
   /// No description provided for @signInWithApple.
   ///
   /// In en, this message translates to:
@@ -800,215 +806,65 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profile;
 
-  /// No description provided for @invest.
+  /// No description provided for @chat.
   ///
   /// In en, this message translates to:
-  /// **'Invest'**
-  String get invest;
+  /// **'Chat'**
+  String get chat;
 
-  /// No description provided for @tasks.
+  /// No description provided for @chatUsers.
   ///
   /// In en, this message translates to:
-  /// **'Tasks'**
-  String get tasks;
+  /// **'Chat Users'**
+  String get chatUsers;
 
-  /// No description provided for @createTask.
+  /// No description provided for @typeMessage.
   ///
   /// In en, this message translates to:
-  /// **'Create Task'**
-  String get createTask;
+  /// **'Type a message'**
+  String get typeMessage;
 
-  /// No description provided for @taskTitle.
+  /// No description provided for @image.
   ///
   /// In en, this message translates to:
-  /// **'Title'**
-  String get taskTitle;
+  /// **'Image'**
+  String get image;
 
-  /// No description provided for @taskTitleHint.
+  /// No description provided for @online.
   ///
   /// In en, this message translates to:
-  /// **'Please enter title'**
-  String get taskTitleHint;
+  /// **'Online'**
+  String get online;
 
-  /// No description provided for @taskDescription.
+  /// No description provided for @lastSeen.
   ///
   /// In en, this message translates to:
-  /// **'Description'**
-  String get taskDescription;
+  /// **'Last Seen {time}'**
+  String lastSeen(String time);
 
-  /// No description provided for @taskDescriptionHint.
+  /// No description provided for @logoutAlertTitle.
   ///
   /// In en, this message translates to:
-  /// **'Please enter description'**
-  String get taskDescriptionHint;
+  /// **'Logout'**
+  String get logoutAlertTitle;
 
-  /// No description provided for @taskLocation.
+  /// No description provided for @logoutAlertMessage.
   ///
   /// In en, this message translates to:
-  /// **'Location'**
-  String get taskLocation;
+  /// **'Are you sure you want to logout?'**
+  String get logoutAlertMessage;
 
-  /// No description provided for @taskLocationHint.
+  /// No description provided for @startNewChat.
   ///
   /// In en, this message translates to:
-  /// **'Please enter location'**
-  String get taskLocationHint;
+  /// **'Start New Chat'**
+  String get startNewChat;
 
-  /// No description provided for @taskDue.
+  /// No description provided for @noUsersFound.
   ///
   /// In en, this message translates to:
-  /// **'Due'**
-  String get taskDue;
-
-  /// No description provided for @taskDueHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Please select due date'**
-  String get taskDueHint;
-
-  /// No description provided for @taskPriority.
-  ///
-  /// In en, this message translates to:
-  /// **'Priority'**
-  String get taskPriority;
-
-  /// No description provided for @taskPriorityHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Please select priority'**
-  String get taskPriorityHint;
-
-  /// No description provided for @taskAssignee.
-  ///
-  /// In en, this message translates to:
-  /// **'Assignee'**
-  String get taskAssignee;
-
-  /// No description provided for @taskAssigneeHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Please select assignee'**
-  String get taskAssigneeHint;
-
-  /// No description provided for @taskStatus.
-  ///
-  /// In en, this message translates to:
-  /// **'Status'**
-  String get taskStatus;
-
-  /// No description provided for @change.
-  ///
-  /// In en, this message translates to:
-  /// **'Change'**
-  String get change;
-
-  /// No description provided for @low.
-  ///
-  /// In en, this message translates to:
-  /// **'Low'**
-  String get low;
-
-  /// No description provided for @medium.
-  ///
-  /// In en, this message translates to:
-  /// **'Medium'**
-  String get medium;
-
-  /// No description provided for @high.
-  ///
-  /// In en, this message translates to:
-  /// **'High'**
-  String get high;
-
-  /// No description provided for @taskCreatedSuccessfully.
-  ///
-  /// In en, this message translates to:
-  /// **'Task created successfully'**
-  String get taskCreatedSuccessfully;
-
-  /// No description provided for @tasksFilter.
-  ///
-  /// In en, this message translates to:
-  /// **'Tasks Filter'**
-  String get tasksFilter;
-
-  /// No description provided for @clearAll.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear All'**
-  String get clearAll;
-
-  /// No description provided for @apply.
-  ///
-  /// In en, this message translates to:
-  /// **'Apply'**
-  String get apply;
-
-  /// No description provided for @dueDateFrom.
-  ///
-  /// In en, this message translates to:
-  /// **'Due Date From'**
-  String get dueDateFrom;
-
-  /// No description provided for @dueDateTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Due Date To'**
-  String get dueDateTo;
-
-  /// No description provided for @markAsComplete.
-  ///
-  /// In en, this message translates to:
-  /// **'Mark as Complete'**
-  String get markAsComplete;
-
-  /// No description provided for @markAsPending.
-  ///
-  /// In en, this message translates to:
-  /// **'Mark as Pending'**
-  String get markAsPending;
-
-  /// No description provided for @markAsInProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'Mark as In Progress'**
-  String get markAsInProgress;
-
-  /// No description provided for @pending.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending'**
-  String get pending;
-
-  /// No description provided for @inProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'In Progress'**
-  String get inProgress;
-
-  /// No description provided for @completed.
-  ///
-  /// In en, this message translates to:
-  /// **'Completed'**
-  String get completed;
-
-  /// No description provided for @agent.
-  ///
-  /// In en, this message translates to:
-  /// **'Agent'**
-  String get agent;
-
-  /// No description provided for @admin.
-  ///
-  /// In en, this message translates to:
-  /// **'Admin'**
-  String get admin;
-
-  /// No description provided for @userRole.
-  ///
-  /// In en, this message translates to:
-  /// **'Role'**
-  String get userRole;
+  /// **'No other users found'**
+  String get noUsersFound;
 }
 
 class _AppLocalizationsDelegate

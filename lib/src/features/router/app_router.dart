@@ -3,8 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/views/profile/profile_screen.dart';
+import 'package:megaviz_chat/src/features/auth/presentation/views/sign_in_screen.dart';
+import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/chats_screen.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/chat_users/chat_users_screen.dart';
+import 'package:megaviz_chat/src/features/chat/presentation/views/messages/messages_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:megaviz_chat/src/features/analytics/presentation/providers/analytics_utils_provider.dart';
 import 'package:megaviz_chat/src/features/bottom_navigation/bottom_navigation.dart';
 import 'package:megaviz_chat/src/features/splash/presentation/views/splash_screen.dart';
 
@@ -14,7 +21,9 @@ enum AppRoutes {
   initial(name: 'Initial', path: '/'),
   signIn(name: 'SignIn', path: '/sign-in'),
   chat(name: 'Chat', path: '/chat'),
-  profile(name: 'Profile', path: '/profile');
+  profile(name: 'Profile', path: '/profile'),
+  chatUsers(name: 'ChatUsers', path: '/chat-users'),
+  messages(name: 'Messages', path: '/messages');
 
   const AppRoutes({required this.name, required this.path});
 
@@ -91,7 +100,20 @@ class AppRouterProvider extends _$AppRouterProvider {
           path: AppRoutes.signIn.path,
           name: AppRoutes.signIn.name,
           parentNavigatorKey: _rootNavigatorKey,
-          builder: (context, state) => Container(),
+          builder: (context, state) => SignInScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.chatUsers.path,
+          name: AppRoutes.chatUsers.name,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) => ChatUsersScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.messages.path,
+          name: AppRoutes.messages.name,
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) =>
+              MessagesScreen(chat: state.extra as Chat),
         ),
         StatefulShellRoute.indexedStack(
           parentNavigatorKey: _rootNavigatorKey,
@@ -107,7 +129,7 @@ class AppRouterProvider extends _$AppRouterProvider {
                     return MaterialPage(
                       key: state.pageKey,
                       name: state.name,
-                      child: Container(),
+                      child: ChatsScreen(),
                     );
                   },
                 ),
@@ -183,10 +205,6 @@ class GoRouterObserver extends NavigatorObserver {
 
   void _logRoute(Route<dynamic>? route) {
     log('Route: ${route?.settings.name}');
-    if (route != null && route.settings.name != null) {
-      ref
-          .read(analyticsUtilsProvider)
-          .screenView(route.settings.name ?? 'unknown');
-    }
+    if (route != null && route.settings.name != null) {}
   }
 }
