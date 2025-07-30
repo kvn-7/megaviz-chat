@@ -5,7 +5,7 @@ A modern chat application built with Flutter and Firebase, designed for real-tim
 
 ## 🎥 Demo
 
-**[APK Download]** *https://loadly.io/u1DbAM3m*
+**[APK Download]** *https://loadly.io/QHyKF2tE*
 
 ## 📱 Features
 
