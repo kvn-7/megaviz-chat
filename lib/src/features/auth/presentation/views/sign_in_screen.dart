@@ -31,6 +31,16 @@ class SignInScreen extends HookConsumerWidget {
       loadingWithEmail.value = false;
     }
 
+    Future<void> signInWithFacebookPressed() async {
+      if (isLoading) return;
+
+      loadingWithEmail.value = true;
+
+      await ref.read(signInStateProvider.notifier).signInWithFacebook();
+
+      loadingWithEmail.value = false;
+    }
+
     ref.listen(signInStateProvider, (previous, next) {
       final error = next.asError?.error;
 
@@ -56,6 +66,12 @@ class SignInScreen extends HookConsumerWidget {
             name: context.appLocalizations.signInWithGoogle,
             iconPath: AppAssets.google,
             onPressed: signInWithGooglePressed,
+          ),
+          AppSpaces.v16,
+          SocialSignInWidget(
+            name: context.appLocalizations.signInWithFacebook,
+            iconPath: AppAssets.facebook,
+            onPressed: signInWithFacebookPressed,
           ),
           AppSpaces.v32,
           RichText(

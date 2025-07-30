@@ -15,4 +15,5 @@ class AppAssets {
   static const google = '$icons/google.svg';
   static const messages = '$icons/messages.svg';
   static const send = '$icons/send.svg';
+  static const facebook = '$icons/facebook.svg';
 }

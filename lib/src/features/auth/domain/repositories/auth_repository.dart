@@ -5,6 +5,8 @@ import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
 abstract class IAuthRepository {
   Future<Either<AppException, AuthUser>> signInWithGoogle(String? fcmToken);
 
+  Future<Either<AppException, AuthUser>> signInWithFacebook(String? fcmToken);
+
   Future<AuthUser?> getAuthUser();
 
   Stream<AuthUser?> getAuthUserStream();

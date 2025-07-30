@@ -22,6 +22,17 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
+  Future<Either<AppException, AuthUser>> signInWithFacebook(
+    String? fcmToken,
+  ) async {
+    final response = await _firebaseAuthDatasource.signInWithFacebook(
+      fcmToken: fcmToken,
+    );
+
+    return response.mapRight((model) => model.toDomain());
+  }
+
+  @override
   Future<AuthUser?> getAuthUser() async {
     final user = _firebaseAuthDatasource.currentUser;
 

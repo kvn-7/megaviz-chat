@@ -55,6 +55,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get signInWithGoogle => 'Sign in with Google';
 
   @override
+  String get signInWithFacebook => 'Sign in with Facebook';
+
+  @override
   String get signInWithApple => 'Sign in with Apple';
 
   @override
