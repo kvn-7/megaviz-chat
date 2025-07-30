@@ -64,6 +64,7 @@ class MessagesScreen extends HookConsumerWidget {
           .read(sendMessageStateProvider.notifier)
           .sendMessage(
             SendMessage(chatId: chat.id, content: TextContent(text)),
+            ref.watch(chatUserProvider(chat.userId)).valueOrNull,
           );
 
       sending.value = false;
@@ -92,6 +93,7 @@ class MessagesScreen extends HookConsumerWidget {
                 filePath: pickedImage.path,
                 chatId: chat.id,
                 destinationPath: destinationPath,
+                user: ref.watch(chatUserProvider(chat.userId)).valueOrNull,
               );
         }
       } catch (e) {

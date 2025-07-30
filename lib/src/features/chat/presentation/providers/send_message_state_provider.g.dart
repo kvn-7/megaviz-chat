@@ -7,7 +7,7 @@ part of 'send_message_state_provider.dart';
 // **************************************************************************
 
 String _$sendMessageStateProviderHash() =>
-    r'8bd9ad9595289376eaf044160118c10effb49e0a';
+    r'5168ecf4fa3010bbb826752be038a815d29cf7f8';
 
 /// See also [SendMessageStateProvider].
 @ProviderFor(SendMessageStateProvider)
