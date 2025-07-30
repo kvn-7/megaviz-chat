@@ -7,7 +7,7 @@ part of 'set_online_offline_status_state_provider.dart';
 // **************************************************************************
 
 String _$setOnlineOfflineStatusStateProviderHash() =>
-    r'd8d92a1a7e6c03b2ecccceb6a099fc5dce450166';
+    r'a4dcd9a49af743236743993294272f3d99e4f7a9';
 
 /// See also [SetOnlineOfflineStatusStateProvider].
 @ProviderFor(SetOnlineOfflineStatusStateProvider)

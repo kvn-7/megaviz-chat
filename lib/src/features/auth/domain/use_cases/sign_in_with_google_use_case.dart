@@ -7,6 +7,5 @@ class SignInWithGoogleUseCase {
   final IAuthRepository repo;
   SignInWithGoogleUseCase(this.repo);
 
-  Future<Either<AppException, AuthUser>> call(String? fcmToken) =>
-      repo.signInWithGoogle(fcmToken);
+  Future<Either<AppException, AuthUser>> call() => repo.signInWithGoogle();
 }

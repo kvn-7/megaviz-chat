@@ -7,6 +7,5 @@ class SignInWithFacebookUseCase {
   final IAuthRepository repo;
   SignInWithFacebookUseCase(this.repo);
 
-  Future<Either<AppException, AuthUser>> call(String? fcmToken) =>
-      repo.signInWithFacebook(fcmToken);
+  Future<Either<AppException, AuthUser>> call() => repo.signInWithFacebook();
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:megaviz_chat/src/common/models/app_exceptions.dart';
@@ -14,16 +15,21 @@ class FirebaseAuthDatasource {
   final GoogleSignIn _googleSignIn;
   final FirebaseFirestore _firestore;
   final FacebookAuth _facebookAuth;
+  final FirebaseMessaging _firebaseMessaging;
 
-  FirebaseAuthDatasource()
-    : _auth = FirebaseAuth.instance,
-      _googleSignIn = GoogleSignIn(scopes: ['email']),
-      _firestore = FirebaseFirestore.instance,
-      _facebookAuth = FacebookAuth.instance;
+  FirebaseAuthDatasource({
+    FirebaseAuth? auth,
+    GoogleSignIn? googleSignIn,
+    FirebaseFirestore? firestore,
+    FacebookAuth? facebookAuth,
+    FirebaseMessaging? firebaseMessaging,
+  }) : _auth = auth ?? FirebaseAuth.instance,
+       _googleSignIn = googleSignIn ?? GoogleSignIn(scopes: ['email']),
+       _firestore = firestore ?? FirebaseFirestore.instance,
+       _facebookAuth = facebookAuth ?? FacebookAuth.instance,
+       _firebaseMessaging = firebaseMessaging ?? FirebaseMessaging.instance;
 
-  Future<Either<AppException, AuthUserDto>> signInWithGoogle({
-    String? fcmToken,
-  }) async {
+  Future<Either<AppException, AuthUserDto>> signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
@@ -38,6 +44,8 @@ class FirebaseAuthDatasource {
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
+
+      final fcmToken = await getFcmToken();
 
       return await _signInWithCredential(credential, fcmToken);
     } on FirebaseAuthException catch (e) {
@@ -56,9 +64,7 @@ class FirebaseAuthDatasource {
     }
   }
 
-  Future<Either<AppException, AuthUserDto>> signInWithFacebook({
-    String? fcmToken,
-  }) async {
+  Future<Either<AppException, AuthUserDto>> signInWithFacebook() async {
     try {
       final LoginResult result = await _facebookAuth.login();
 
@@ -70,6 +76,8 @@ class FirebaseAuthDatasource {
       final OAuthCredential credential = FacebookAuthProvider.credential(
         accessToken.tokenString,
       );
+
+      final fcmToken = await getFcmToken();
 
       return await _signInWithCredential(credential, fcmToken);
     } on FirebaseAuthException catch (e) {
@@ -315,5 +323,15 @@ class FirebaseAuthDatasource {
           'facebook_unknown_error',
         );
     return _createAuthException(errorInfo.$1, errorInfo.$2);
+  }
+
+  Future<String?> getFcmToken() async {
+    try {
+      final token = await _firebaseMessaging.getToken();
+      return token;
+    } catch (e) {
+      log('Error getting FCM token: $e');
+      return null;
+    }
   }
 }

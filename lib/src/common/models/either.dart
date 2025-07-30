@@ -22,6 +22,16 @@ sealed class Either<L, R> {
     Left(:final value) => Left<T, R>(f(value)),
     Right(:final value) => Right<T, R>(value),
   };
+
+  R getRight() => switch (this) {
+    Right(:final value) => value,
+    Left() => throw StateError('Cannot get right value from Left'),
+  };
+
+  L getLeft() => switch (this) {
+    Left(:final value) => value,
+    Right() => throw StateError('Cannot get left value from Right'),
+  };
 }
 
 class Left<L, R> extends Either<L, R> {

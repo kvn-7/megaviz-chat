@@ -7,7 +7,7 @@ part of 'sign_in_state_provider.dart';
 // **************************************************************************
 
 String _$signInStateProviderHash() =>
-    r'8b7859065fae27bff58574068e4d07a64e358555';
+    r'f9b9cd0984e64500a7c7c407be301b6975a22dc1';
 
 /// See also [SignInStateProvider].
 @ProviderFor(SignInStateProvider)
