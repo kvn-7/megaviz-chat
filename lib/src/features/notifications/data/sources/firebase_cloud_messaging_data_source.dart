@@ -16,7 +16,7 @@ class FirebaseCloudMessagingDataSource {
       _dio = Dio(
         BaseOptions(
           baseUrl:
-              'http://192.168.1.4:4000/api/megaviz', // Replace with your server URL
+              'https://evetask.azurewebsites.net/api/megaviz', // Replace with your server URL
         ),
       );
 

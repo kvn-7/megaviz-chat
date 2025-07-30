@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -25,126 +27,31 @@ class FirebaseAuthDatasource {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
-        return Left(
-          AppException(
-            message: 'Google sign-in was cancelled by user',
-            statusCode: 401,
-            identifier: 'google_sign_in_cancelled',
-          ),
+        return _createAuthException(
+          'Google sign-in was cancelled by user',
+          'google_sign_in_cancelled',
         );
       }
 
       final googleAuth = await googleUser.authentication;
-
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
       );
 
-      final userCredential = await _auth.signInWithCredential(credential);
-
-      final user = userCredential.user;
-
-      if (user == null) {
-        return Left(
-          AppException(
-            message: 'Firebase authentication failed',
-            statusCode: 401,
-            identifier: 'firebase_auth_failed',
-          ),
-        );
-      }
-
-      await createUserInFirestore(fcmToken);
-
-      return Right(AuthUserDto.fromFirebaseUser(user));
+      return await _signInWithCredential(credential, fcmToken);
     } on FirebaseAuthException catch (e) {
       await _googleSignIn.signOut();
-
-      // Handle Firebase-specific errors
-      String message;
-      String identifier;
-
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          message = 'An account already exists with a different sign-in method';
-          identifier = 'account_exists_different_credential';
-          break;
-        case 'invalid-credential':
-          message = 'The credential is invalid or expired';
-          identifier = 'invalid_credential';
-          break;
-        case 'operation-not-allowed':
-          message = 'Google sign-in is not enabled';
-          identifier = 'operation_not_allowed';
-          break;
-        case 'user-disabled':
-          message = 'This user account has been disabled';
-          identifier = 'user_disabled';
-          break;
-        case 'user-not-found':
-          message = 'No user found with this credential';
-          identifier = 'user_not_found';
-          break;
-        case 'wrong-password':
-          message = 'Invalid password';
-          identifier = 'wrong_password';
-          break;
-        case 'too-many-requests':
-          message = 'Too many failed attempts. Please try again later';
-          identifier = 'too_many_requests';
-          break;
-        case 'network-request-failed':
-          message = 'Network error. Please check your connection';
-          identifier = 'network_error';
-          break;
-        default:
-          message = 'Firebase authentication failed: ${e.message}';
-          identifier = 'firebase_auth_error';
-      }
-
-      return Left(
-        AppException(message: message, statusCode: 401, identifier: identifier),
-      );
+      return _handleFirebaseAuthException(e);
     } on PlatformException catch (e) {
       await _googleSignIn.signOut();
-
-      // Handle Google Sign-In platform-specific errors
-      String message;
-      String identifier;
-
-      switch (e.code) {
-        case 'sign_in_failed':
-          message = 'Google sign-in failed. Please try again';
-          identifier = 'google_sign_in_failed';
-          break;
-        case 'network_error':
-          message = 'Network error during Google sign-in';
-          identifier = 'google_network_error';
-          break;
-        case 'sign_in_cancelled':
-          message = 'Google sign-in was cancelled';
-          identifier = 'google_sign_in_cancelled';
-          break;
-        default:
-          message = 'Google sign-in error: ${e.message}';
-          identifier = 'google_platform_error';
-      }
-
-      return Left(
-        AppException(message: message, statusCode: 401, identifier: identifier),
-      );
+      return _handleGooglePlatformException(e);
     } catch (e) {
       await _googleSignIn.signOut();
-
-      // Handle any other unexpected errors
-      return Left(
-        AppException(
-          message:
-              'An unexpected error occurred during sign-in: ${e.toString()}',
-          statusCode: 500,
-          identifier: 'unexpected_error',
-        ),
+      return _createAuthException(
+        'An unexpected error occurred during sign-in: ${e.toString()}',
+        'unexpected_error',
+        statusCode: 500,
       );
     }
   }
@@ -156,162 +63,49 @@ class FirebaseAuthDatasource {
       final LoginResult result = await _facebookAuth.login();
 
       if (result.status != LoginStatus.success) {
-        String message;
-        String identifier;
-
-        switch (result.status) {
-          case LoginStatus.cancelled:
-            message = 'Facebook sign-in was cancelled by user';
-            identifier = 'facebook_sign_in_cancelled';
-            break;
-          case LoginStatus.failed:
-            message = 'Facebook sign-in failed: ${result.message}';
-            identifier = 'facebook_sign_in_failed';
-            break;
-          case LoginStatus.operationInProgress:
-            message = 'Facebook sign-in operation is already in progress';
-            identifier = 'facebook_operation_in_progress';
-            break;
-          default:
-            message = 'Facebook sign-in failed with unknown status';
-            identifier = 'facebook_unknown_error';
-        }
-
-        return Left(
-          AppException(
-            message: message,
-            statusCode: 401,
-            identifier: identifier,
-          ),
-        );
+        return _handleFacebookLoginResult(result);
       }
 
       final AccessToken accessToken = result.accessToken!;
-
       final OAuthCredential credential = FacebookAuthProvider.credential(
         accessToken.tokenString,
       );
 
-      final UserCredential userCredential = await _auth.signInWithCredential(
-        credential,
-      );
-
-      final User? user = userCredential.user;
-
-      if (user == null) {
-        return Left(
-          AppException(
-            message: 'Firebase authentication failed',
-            statusCode: 401,
-            identifier: 'firebase_auth_failed',
-          ),
-        );
-      }
-
-      await createUserInFirestore(fcmToken);
-
-      return Right(AuthUserDto.fromFirebaseUser(user));
+      return await _signInWithCredential(credential, fcmToken);
     } on FirebaseAuthException catch (e) {
       await _facebookAuth.logOut();
-
-      // Handle Firebase-specific errors
-      String message;
-      String identifier;
-
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          message = 'An account already exists with a different sign-in method';
-          identifier = 'account_exists_different_credential';
-          break;
-        case 'invalid-credential':
-          message = 'The Facebook credential is invalid or expired';
-          identifier = 'invalid_credential';
-          break;
-        case 'operation-not-allowed':
-          message = 'Facebook sign-in is not enabled';
-          identifier = 'operation_not_allowed';
-          break;
-        case 'user-disabled':
-          message = 'This user account has been disabled';
-          identifier = 'user_disabled';
-          break;
-        case 'user-not-found':
-          message = 'No user found with this credential';
-          identifier = 'user_not_found';
-          break;
-        case 'too-many-requests':
-          message = 'Too many failed attempts. Please try again later';
-          identifier = 'too_many_requests';
-          break;
-        case 'network-request-failed':
-          message = 'Network error. Please check your connection';
-          identifier = 'network_error';
-          break;
-        default:
-          message = 'Firebase authentication failed: ${e.message}';
-          identifier = 'firebase_auth_error';
-      }
-
-      return Left(
-        AppException(message: message, statusCode: 401, identifier: identifier),
-      );
+      return _handleFirebaseAuthException(e);
     } on PlatformException catch (e) {
       await _facebookAuth.logOut();
-
-      // Handle Facebook platform-specific errors
-      String message;
-      String identifier;
-
-      switch (e.code) {
-        case 'CANCELLED':
-          message = 'Facebook sign-in was cancelled';
-          identifier = 'facebook_sign_in_cancelled';
-          break;
-        case 'FAILED':
-          message = 'Facebook sign-in failed. Please try again';
-          identifier = 'facebook_sign_in_failed';
-          break;
-        default:
-          message = 'Facebook sign-in error: ${e.message}';
-          identifier = 'facebook_platform_error';
-      }
-
-      return Left(
-        AppException(message: message, statusCode: 401, identifier: identifier),
-      );
+      return _handleFacebookPlatformException(e);
     } catch (e) {
       await _facebookAuth.logOut();
-
-      // Handle any other unexpected errors
-      return Left(
-        AppException(
-          message:
-              'An unexpected error occurred during Facebook sign-in: ${e.toString()}',
-          statusCode: 500,
-          identifier: 'unexpected_error',
-        ),
+      return _createAuthException(
+        'An unexpected error occurred during Facebook sign-in: ${e.toString()}',
+        'unexpected_error',
+        statusCode: 500,
       );
     }
   }
 
   Future<void> signOut() async {
     await setOnlineOffline(false);
-    await _auth.signOut();
-    await _googleSignIn.signOut();
+    await updateFcmToken(null);
+    await Future.wait([
+      _auth.signOut(),
+      _googleSignIn.signOut(),
+      _facebookAuth.logOut(),
+    ]);
   }
 
   AuthUserDto? get currentUser {
     final user = _auth.currentUser;
-
-    if (user == null) return null;
-
-    return AuthUserDto.fromFirebaseUser(user);
+    return user != null ? AuthUserDto.fromFirebaseUser(user) : null;
   }
 
   Stream<AuthUserDto?> get userChanges {
     return _auth.authStateChanges().map((user) {
-      if (user == null) return null;
-      return AuthUserDto.fromFirebaseUser(user);
+      return user != null ? AuthUserDto.fromFirebaseUser(user) : null;
     });
   }
 
@@ -321,48 +115,205 @@ class FirebaseAuthDatasource {
     try {
       final user = _auth.currentUser;
       if (user == null) {
-        return Left(
-          AppException(
-            message: 'No authenticated user found',
-            statusCode: 401,
-            identifier: 'no_authenticated_user',
-          ),
+        return _createAuthException(
+          'No authenticated user found',
+          'no_authenticated_user',
         );
       }
 
       final userDoc = _firestore.collection('users').doc(user.uid);
+      await userDoc.set({
+        'uid': user.uid,
+        'email': user.email,
+        'displayName': user.displayName,
+        'photoURL': user.photoURL,
+        'fcmToken': fcmToken,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 
-      return userDoc
-          .set({
-            'uid': user.uid,
-            'email': user.email,
-            'displayName': user.displayName,
-            'photoURL': user.photoURL,
-            'fcmToken': fcmToken,
-            'createdAt': FieldValue.serverTimestamp(),
-          })
-          .then((_) => Right(null));
+      return const Right(null);
     } catch (e) {
-      return Left(
-        AppException(
-          message: 'Failed to create user in Firestore: ${e.toString()}',
-          statusCode: 500,
-          identifier: 'create_user_firestore_error',
-        ),
+      return _createAuthException(
+        'Failed to create user in Firestore: ${e.toString()}',
+        'create_user_firestore_error',
+        statusCode: 500,
       );
     }
   }
 
   Future<void> setOnlineOffline(bool isOnline) async {
-    final user = _auth.currentUser;
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return;
 
-    if (user == null) return;
+      final userDoc = _firestore.collection('users').doc(user.uid);
+      await userDoc.update({
+        'isOnline': isOnline,
+        'lastSeen': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      log(
+        'Failed to update online status: ${e.toString()}',
+        name: 'FirebaseAuthDatasource.setOnlineOffline',
+      );
+    }
+  }
 
-    final userDoc = _firestore.collection('users').doc(user.uid);
+  Future<void> updateFcmToken(String? fcmToken) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return;
 
-    await userDoc.update({
-      'isOnline': isOnline,
-      'lastSeen': FieldValue.serverTimestamp(),
-    });
+      final userDoc = _firestore.collection('users').doc(user.uid);
+      await userDoc.update({'fcmToken': fcmToken});
+    } catch (e) {
+      log(
+        'Failed to update FCM token: ${e.toString()}',
+        name: 'FirebaseAuthDatasource.updateFcmToken',
+      );
+    }
+  }
+
+  // Private helper methods to reduce duplication
+
+  Future<Either<AppException, AuthUserDto>> _signInWithCredential(
+    AuthCredential credential,
+    String? fcmToken,
+  ) async {
+    final userCredential = await _auth.signInWithCredential(credential);
+    final user = userCredential.user;
+
+    if (user == null) {
+      return _createAuthException(
+        'Firebase authentication failed',
+        'firebase_auth_failed',
+      );
+    }
+
+    await createUserInFirestore(fcmToken);
+    return Right(AuthUserDto.fromFirebaseUser(user));
+  }
+
+  Left<AppException, T> _createAuthException<T>(
+    String message,
+    String identifier, {
+    int statusCode = 401,
+  }) {
+    return Left(
+      AppException(
+        message: message,
+        statusCode: statusCode,
+        identifier: identifier,
+      ),
+    );
+  }
+
+  Left<AppException, AuthUserDto> _handleFirebaseAuthException(
+    FirebaseAuthException e,
+  ) {
+    final errorMap = {
+      'account-exists-with-different-credential': (
+        'An account already exists with a different sign-in method',
+        'account_exists_different_credential',
+      ),
+      'invalid-credential': (
+        'The credential is invalid or expired',
+        'invalid_credential',
+      ),
+      'operation-not-allowed': (
+        'Sign-in method is not enabled',
+        'operation_not_allowed',
+      ),
+      'user-disabled': ('This user account has been disabled', 'user_disabled'),
+      'user-not-found': (
+        'No user found with this credential',
+        'user_not_found',
+      ),
+      'wrong-password': ('Invalid password', 'wrong_password'),
+      'too-many-requests': (
+        'Too many failed attempts. Please try again later',
+        'too_many_requests',
+      ),
+      'network-request-failed': (
+        'Network error. Please check your connection',
+        'network_error',
+      ),
+    };
+
+    final errorInfo =
+        errorMap[e.code] ??
+        ('Firebase authentication failed: ${e.message}', 'firebase_auth_error');
+    return _createAuthException(errorInfo.$1, errorInfo.$2);
+  }
+
+  Left<AppException, AuthUserDto> _handleGooglePlatformException(
+    PlatformException e,
+  ) {
+    final errorMap = {
+      'sign_in_failed': (
+        'Google sign-in failed. Please try again',
+        'google_sign_in_failed',
+      ),
+      'network_error': (
+        'Network error during Google sign-in',
+        'google_network_error',
+      ),
+      'sign_in_cancelled': (
+        'Google sign-in was cancelled',
+        'google_sign_in_cancelled',
+      ),
+    };
+
+    final errorInfo =
+        errorMap[e.code] ??
+        ('Google sign-in error: ${e.message}', 'google_platform_error');
+    return _createAuthException(errorInfo.$1, errorInfo.$2);
+  }
+
+  Left<AppException, AuthUserDto> _handleFacebookPlatformException(
+    PlatformException e,
+  ) {
+    final errorMap = {
+      'CANCELLED': (
+        'Facebook sign-in was cancelled',
+        'facebook_sign_in_cancelled',
+      ),
+      'FAILED': (
+        'Facebook sign-in failed. Please try again',
+        'facebook_sign_in_failed',
+      ),
+    };
+
+    final errorInfo =
+        errorMap[e.code] ??
+        ('Facebook sign-in error: ${e.message}', 'facebook_platform_error');
+    return _createAuthException(errorInfo.$1, errorInfo.$2);
+  }
+
+  Left<AppException, AuthUserDto> _handleFacebookLoginResult(
+    LoginResult result,
+  ) {
+    final statusMap = {
+      LoginStatus.cancelled: (
+        'Facebook sign-in was cancelled by user',
+        'facebook_sign_in_cancelled',
+      ),
+      LoginStatus.failed: (
+        'Facebook sign-in failed: ${result.message}',
+        'facebook_sign_in_failed',
+      ),
+      LoginStatus.operationInProgress: (
+        'Facebook sign-in operation is already in progress',
+        'facebook_operation_in_progress',
+      ),
+    };
+
+    final errorInfo =
+        statusMap[result.status] ??
+        (
+          'Facebook sign-in failed with unknown status',
+          'facebook_unknown_error',
+        );
+    return _createAuthException(errorInfo.$1, errorInfo.$2);
   }
 }

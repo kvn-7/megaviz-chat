@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:megaviz_chat/src/common/app_widgets/app_image.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_spaces.dart';
 import 'package:megaviz_chat/src/common/app_widgets/app_text.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
@@ -148,11 +147,27 @@ class MyMessageWidget extends StatelessWidget {
           ),
           child: Stack(
             children: [
-              AppImage.network(
-                url: imageContent.imageUrl,
+              FadeInImage.assetNetwork(
+                placeholder:
+                    'assets/images/placeholder.png', // Add a placeholder asset
+                image: imageContent.imageUrl,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                radius: borderRadius,
+                placeholderErrorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.surfaceVariant,
+                      borderRadius: borderRadius,
+                    ),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: context.colorScheme.primary,
+                      ),
+                    ),
+                  );
+                },
               ),
               Positioned(
                 bottom: 8,

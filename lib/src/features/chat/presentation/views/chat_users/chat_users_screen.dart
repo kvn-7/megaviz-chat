@@ -20,6 +20,12 @@ class ChatUsersScreen extends ConsumerWidget {
           .watch(availableChatUsersProvider)
           .when(
             data: (data) {
+              if (data.isEmpty) {
+                return AppEmptyWidget(
+                  text: context.appLocalizations.noUsersFound,
+                );
+              }
+
               return ListView.separated(
                 itemBuilder: (context, index) {
                   final user = data[index];

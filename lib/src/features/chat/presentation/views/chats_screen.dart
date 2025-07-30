@@ -32,6 +32,12 @@ class ChatsScreen extends HookConsumerWidget {
           .watch(chatsProvider)
           .when(
             data: (data) {
+              if (data.isEmpty) {
+                return AppEmptyWidget(
+                  text: context.appLocalizations.startNewChat,
+                );
+              }
+
               return ListView.separated(
                 itemBuilder: (context, index) {
                   final chat = data[index];
@@ -45,7 +51,9 @@ class ChatsScreen extends HookConsumerWidget {
               );
             },
             error: (error, stackTrace) {
-              return AppEmptyWidget(text: error.toString());
+              return AppEmptyWidget(
+                text: context.appLocalizations.startNewChat,
+              );
             },
             loading: () {
               return AppLoader();

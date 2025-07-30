@@ -398,4 +398,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logoutAlertMessage => 'Are you sure you want to logout?';
+
+  @override
+  String get startNewChat => 'Start New Chat';
+
+  @override
+  String get noUsersFound => 'No other users found';
 }

@@ -159,5 +159,7 @@
     }
   },
   "logoutAlertTitle": "Logout",
-  "logoutAlertMessage": "Are you sure you want to logout?"
+  "logoutAlertMessage": "Are you sure you want to logout?",
+  "startNewChat": "Start New Chat",
+  "noUsersFound": "No other users found"
 }
