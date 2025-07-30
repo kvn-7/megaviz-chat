@@ -1,27 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sign_in_state_provider.dart';
+part of 'get_fcm_token_use_case_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$signInStateProviderHash() =>
-    r'd836768551866586e1e4cebdcbec16f78c475a18';
+String _$getFcmTokenUseCaseProviderHash() =>
+    r'a32d347e3297103e946d0fff3d489d6c1a2ec136';
 
-/// See also [SignInStateProvider].
-@ProviderFor(SignInStateProvider)
-final signInStateProvider =
-    AutoDisposeAsyncNotifierProvider<SignInStateProvider, bool>.internal(
-      SignInStateProvider.new,
-      name: r'signInStateProvider',
+/// See also [GetFcmTokenUseCaseProvider].
+@ProviderFor(GetFcmTokenUseCaseProvider)
+final getFcmTokenUseCaseProvider =
+    AutoDisposeNotifierProvider<
+      GetFcmTokenUseCaseProvider,
+      GetFcmTokenUseCase
+    >.internal(
+      GetFcmTokenUseCaseProvider.new,
+      name: r'getFcmTokenUseCaseProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$signInStateProviderHash,
+          : _$getFcmTokenUseCaseProviderHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$SignInStateProvider = AutoDisposeAsyncNotifier<bool>;
+typedef _$GetFcmTokenUseCaseProvider = AutoDisposeNotifier<GetFcmTokenUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

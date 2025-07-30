@@ -15,6 +15,7 @@ abstract class ChatUser with _$ChatUser {
     String? photoUrl,
     required bool isOnline,
     required DateTime? lastSeen,
+    required String? fcmToken,
   }) = _ChatUser;
 }
 

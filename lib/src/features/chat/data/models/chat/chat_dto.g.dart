@@ -20,6 +20,7 @@ _ChatUserDto _$ChatUserDtoFromJson(Map<String, dynamic> json) => _ChatUserDto(
   photoURL: json['photoURL'] as String?,
   isOnline: json['isOnline'] as bool? ?? false,
   lastSeen: const TimestampConverter().fromJson(json['lastSeen']),
+  fcmToken: json['fcmToken'] as String?,
 );
 
 Map<String, dynamic> _$ChatUserDtoToJson(_ChatUserDto instance) =>
@@ -34,6 +35,7 @@ Map<String, dynamic> _$ChatUserDtoToJson(_ChatUserDto instance) =>
           )
           case final value?)
         'lastSeen': value,
+      if (instance.fcmToken case final value?) 'fcmToken': value,
     };
 
 Json? _$JsonConverterToJson<Json, Value>(

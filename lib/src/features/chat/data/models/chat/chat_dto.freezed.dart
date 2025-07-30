@@ -281,7 +281,7 @@ as String,
 /// @nodoc
 mixin _$ChatUserDto {
 
- String get uid; String get displayName; String? get photoURL; bool get isOnline;@TimestampConverter() DateTime? get lastSeen;
+ String get uid; String get displayName; String? get photoURL; bool get isOnline;@TimestampConverter() DateTime? get lastSeen; String? get fcmToken;
 /// Create a copy of ChatUserDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -294,16 +294,16 @@ $ChatUserDtoCopyWith<ChatUserDto> get copyWith => _$ChatUserDtoCopyWithImpl<Chat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatUserDto&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.photoURL, photoURL) || other.photoURL == photoURL)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatUserDto&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.photoURL, photoURL) || other.photoURL == photoURL)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.fcmToken, fcmToken) || other.fcmToken == fcmToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,displayName,photoURL,isOnline,lastSeen);
+int get hashCode => Object.hash(runtimeType,uid,displayName,photoURL,isOnline,lastSeen,fcmToken);
 
 @override
 String toString() {
-  return 'ChatUserDto(uid: $uid, displayName: $displayName, photoURL: $photoURL, isOnline: $isOnline, lastSeen: $lastSeen)';
+  return 'ChatUserDto(uid: $uid, displayName: $displayName, photoURL: $photoURL, isOnline: $isOnline, lastSeen: $lastSeen, fcmToken: $fcmToken)';
 }
 
 
@@ -314,7 +314,7 @@ abstract mixin class $ChatUserDtoCopyWith<$Res>  {
   factory $ChatUserDtoCopyWith(ChatUserDto value, $Res Function(ChatUserDto) _then) = _$ChatUserDtoCopyWithImpl;
 @useResult
 $Res call({
- String uid, String displayName, String? photoURL, bool isOnline,@TimestampConverter() DateTime? lastSeen
+ String uid, String displayName, String? photoURL, bool isOnline,@TimestampConverter() DateTime? lastSeen, String? fcmToken
 });
 
 
@@ -331,14 +331,15 @@ class _$ChatUserDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatUserDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? displayName = null,Object? photoURL = freezed,Object? isOnline = null,Object? lastSeen = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? displayName = null,Object? photoURL = freezed,Object? isOnline = null,Object? lastSeen = freezed,Object? fcmToken = freezed,}) {
   return _then(_self.copyWith(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String,photoURL: freezed == photoURL ? _self.photoURL : photoURL // ignore: cast_nullable_to_non_nullable
 as String?,isOnline: null == isOnline ? _self.isOnline : isOnline // ignore: cast_nullable_to_non_nullable
 as bool,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,fcmToken: freezed == fcmToken ? _self.fcmToken : fcmToken // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -423,10 +424,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen,  String? fcmToken)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatUserDto() when $default != null:
-return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen);case _:
+return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen,_that.fcmToken);case _:
   return orElse();
 
 }
@@ -444,10 +445,10 @@ return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen,  String? fcmToken)  $default,) {final _that = this;
 switch (_that) {
 case _ChatUserDto():
-return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen);case _:
+return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen,_that.fcmToken);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -464,10 +465,10 @@ return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String displayName,  String? photoURL,  bool isOnline, @TimestampConverter()  DateTime? lastSeen,  String? fcmToken)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatUserDto() when $default != null:
-return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen);case _:
+return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.lastSeen,_that.fcmToken);case _:
   return null;
 
 }
@@ -479,7 +480,7 @@ return $default(_that.uid,_that.displayName,_that.photoURL,_that.isOnline,_that.
 @JsonSerializable()
 
 class _ChatUserDto implements ChatUserDto {
-  const _ChatUserDto({required this.uid, required this.displayName, this.photoURL, this.isOnline = false, @TimestampConverter() this.lastSeen});
+  const _ChatUserDto({required this.uid, required this.displayName, this.photoURL, this.isOnline = false, @TimestampConverter() this.lastSeen, this.fcmToken});
   factory _ChatUserDto.fromJson(Map<String, dynamic> json) => _$ChatUserDtoFromJson(json);
 
 @override final  String uid;
@@ -487,6 +488,7 @@ class _ChatUserDto implements ChatUserDto {
 @override final  String? photoURL;
 @override@JsonKey() final  bool isOnline;
 @override@TimestampConverter() final  DateTime? lastSeen;
+@override final  String? fcmToken;
 
 /// Create a copy of ChatUserDto
 /// with the given fields replaced by the non-null parameter values.
@@ -501,16 +503,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatUserDto&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.photoURL, photoURL) || other.photoURL == photoURL)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatUserDto&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.photoURL, photoURL) || other.photoURL == photoURL)&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.fcmToken, fcmToken) || other.fcmToken == fcmToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,displayName,photoURL,isOnline,lastSeen);
+int get hashCode => Object.hash(runtimeType,uid,displayName,photoURL,isOnline,lastSeen,fcmToken);
 
 @override
 String toString() {
-  return 'ChatUserDto(uid: $uid, displayName: $displayName, photoURL: $photoURL, isOnline: $isOnline, lastSeen: $lastSeen)';
+  return 'ChatUserDto(uid: $uid, displayName: $displayName, photoURL: $photoURL, isOnline: $isOnline, lastSeen: $lastSeen, fcmToken: $fcmToken)';
 }
 
 
@@ -521,7 +523,7 @@ abstract mixin class _$ChatUserDtoCopyWith<$Res> implements $ChatUserDtoCopyWith
   factory _$ChatUserDtoCopyWith(_ChatUserDto value, $Res Function(_ChatUserDto) _then) = __$ChatUserDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String uid, String displayName, String? photoURL, bool isOnline,@TimestampConverter() DateTime? lastSeen
+ String uid, String displayName, String? photoURL, bool isOnline,@TimestampConverter() DateTime? lastSeen, String? fcmToken
 });
 
 
@@ -538,14 +540,15 @@ class __$ChatUserDtoCopyWithImpl<$Res>
 
 /// Create a copy of ChatUserDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? displayName = null,Object? photoURL = freezed,Object? isOnline = null,Object? lastSeen = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? displayName = null,Object? photoURL = freezed,Object? isOnline = null,Object? lastSeen = freezed,Object? fcmToken = freezed,}) {
   return _then(_ChatUserDto(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String,photoURL: freezed == photoURL ? _self.photoURL : photoURL // ignore: cast_nullable_to_non_nullable
 as String?,isOnline: null == isOnline ? _self.isOnline : isOnline // ignore: cast_nullable_to_non_nullable
 as bool,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,fcmToken: freezed == fcmToken ? _self.fcmToken : fcmToken // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

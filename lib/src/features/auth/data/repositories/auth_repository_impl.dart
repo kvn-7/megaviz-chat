@@ -11,8 +11,12 @@ class AuthRepositoryImpl implements IAuthRepository {
   AuthRepositoryImpl(this._firebaseAuthDatasource);
 
   @override
-  Future<Either<AppException, AuthUser>> signInWithGoogle() async {
-    final response = await _firebaseAuthDatasource.signInWithGoogle();
+  Future<Either<AppException, AuthUser>> signInWithGoogle(
+    String? fcmToken,
+  ) async {
+    final response = await _firebaseAuthDatasource.signInWithGoogle(
+      fcmToken: fcmToken,
+    );
 
     return response.mapRight((model) => model.toDomain());
   }

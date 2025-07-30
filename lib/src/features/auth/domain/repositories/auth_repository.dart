@@ -3,7 +3,7 @@ import 'package:megaviz_chat/src/common/models/either.dart';
 import 'package:megaviz_chat/src/features/auth/domain/entities/auth_user.dart';
 
 abstract class IAuthRepository {
-  Future<Either<AppException, AuthUser>> signInWithGoogle();
+  Future<Either<AppException, AuthUser>> signInWithGoogle(String? fcmToken);
 
   Future<AuthUser?> getAuthUser();
 

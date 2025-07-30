@@ -16,7 +16,9 @@ class FirebaseAuthDatasource {
       _googleSignIn = GoogleSignIn(scopes: ['email']),
       _firestore = FirebaseFirestore.instance;
 
-  Future<Either<AppException, AuthUserDto>> signInWithGoogle() async {
+  Future<Either<AppException, AuthUserDto>> signInWithGoogle({
+    String? fcmToken,
+  }) async {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
@@ -50,7 +52,7 @@ class FirebaseAuthDatasource {
         );
       }
 
-      await createUserInFirestore();
+      await createUserInFirestore(fcmToken);
 
       return Right(AuthUserDto.fromFirebaseUser(user));
     } on FirebaseAuthException catch (e) {
@@ -165,7 +167,9 @@ class FirebaseAuthDatasource {
     });
   }
 
-  Future<Either<AppException, void>> createUserInFirestore() async {
+  Future<Either<AppException, void>> createUserInFirestore(
+    String? fcmToken,
+  ) async {
     try {
       final user = _auth.currentUser;
       if (user == null) {
@@ -186,6 +190,7 @@ class FirebaseAuthDatasource {
             'email': user.email,
             'displayName': user.displayName,
             'photoURL': user.photoURL,
+            'fcmToken': fcmToken,
             'createdAt': FieldValue.serverTimestamp(),
           })
           .then((_) => Right(null));
