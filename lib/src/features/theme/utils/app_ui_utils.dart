@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class AppUiUtils extends ThemeExtension<AppUiUtils> {
   const AppUiUtils({
@@ -10,7 +9,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
     required this.fontFamily,
     required this.secondaryFontFamily,
     required this.bottomNavIconSize,
-    required this.monthPickerDialogSettings,
     required this.fontHeight,
   });
 
@@ -23,19 +21,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
       secondaryFontFamily: GoogleFonts.openSans().fontFamily,
       bottomNavIconSize: 28,
       fontHeight: 1.2,
-      monthPickerDialogSettings: MonthPickerDialogSettings(
-        dialogSettings: PickerDialogSettings(
-          dialogBackgroundColor: colorScheme.surface,
-          dialogRoundedCornersRadius: 12,
-        ),
-        dateButtonsSettings: PickerDateButtonsSettings(
-          buttonBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          selectedMonthBackgroundColor: colorScheme.primary,
-          selectedMonthTextColor: colorScheme.onPrimary,
-        ),
-      ),
     );
   }
 
@@ -45,7 +30,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
   final String? fontFamily;
   final String? secondaryFontFamily;
   final double bottomNavIconSize;
-  final MonthPickerDialogSettings monthPickerDialogSettings;
   final double fontHeight;
 
   @override
@@ -56,7 +40,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
     String? fontFamily,
     String? secondaryFontFamily,
     double? bottomNavIconSize,
-    MonthPickerDialogSettings? monthPickerDialogSettings,
     double? fontHeight,
   }) {
     return AppUiUtils(
@@ -67,8 +50,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
       fontFamily: fontFamily ?? this.fontFamily,
       secondaryFontFamily: secondaryFontFamily ?? this.secondaryFontFamily,
       bottomNavIconSize: bottomNavIconSize ?? this.bottomNavIconSize,
-      monthPickerDialogSettings:
-          monthPickerDialogSettings ?? this.monthPickerDialogSettings,
       fontHeight: fontHeight ?? this.fontHeight,
     );
   }
@@ -86,7 +67,6 @@ class AppUiUtils extends ThemeExtension<AppUiUtils> {
       fontFamily: other.fontFamily,
       secondaryFontFamily: other.secondaryFontFamily,
       bottomNavIconSize: other.bottomNavIconSize,
-      monthPickerDialogSettings: other.monthPickerDialogSettings,
       fontHeight: other.fontHeight,
     );
   }

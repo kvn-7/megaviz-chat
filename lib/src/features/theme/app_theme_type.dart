@@ -1,7 +1,6 @@
 // ignore_for_file: use_setters_to_change_properties
 
 import 'package:flutter/material.dart';
-import 'package:megaviz_chat/src/features/local_storage/secure_storage.dart';
 import 'package:megaviz_chat/src/utils/extensions/context_extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -68,21 +67,21 @@ class AppThemeTypeProvider extends _$AppThemeTypeProvider {
     return UserThemeType.light;
   }
 
-  Future<void> changeThemeType(UserThemeType type) async {
-    final storage = await ref.read(secureStorageProvider.future);
+  // Future<void> changeThemeType(UserThemeType type) async {
+  //   final storage = await ref.read(secureStorageProvider.future);
 
-    await storage.set('userThemeType', type.name);
+  //   await storage.set('userThemeType', type.name);
 
-    state = AsyncValue.data(type);
-  }
+  //   state = AsyncValue.data(type);
+  // }
 
-  void toggleThemeType() {
-    final themeType = state.valueOrNull;
+  // void toggleThemeType() {
+  //   final themeType = state.valueOrNull;
 
-    final userThemeType = themeType?.themeType(null) == ThemeType.light
-        ? UserThemeType.dark
-        : UserThemeType.light;
+  //   final userThemeType = themeType?.themeType(null) == ThemeType.light
+  //       ? UserThemeType.dark
+  //       : UserThemeType.light;
 
-    changeThemeType(userThemeType);
-  }
+  //   // changeThemeType(userThemeType);
+  // }
 }

@@ -12,7 +12,6 @@ import 'package:megaviz_chat/src/features/chat/presentation/views/chats_screen.d
 import 'package:megaviz_chat/src/features/chat/presentation/views/chat_users/chat_users_screen.dart';
 import 'package:megaviz_chat/src/features/chat/presentation/views/messages/messages_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:megaviz_chat/src/features/analytics/presentation/providers/analytics_utils_provider.dart';
 import 'package:megaviz_chat/src/features/bottom_navigation/bottom_navigation.dart';
 import 'package:megaviz_chat/src/features/splash/presentation/views/splash_screen.dart';
 
@@ -206,10 +205,6 @@ class GoRouterObserver extends NavigatorObserver {
 
   void _logRoute(Route<dynamic>? route) {
     log('Route: ${route?.settings.name}');
-    if (route != null && route.settings.name != null) {
-      ref
-          .read(analyticsUtilsProvider)
-          .screenView(route.settings.name ?? 'unknown');
-    }
+    if (route != null && route.settings.name != null) {}
   }
 }
