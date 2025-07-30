@@ -35,6 +35,12 @@ class MessagesScreen extends HookConsumerWidget {
     final sending = useState(false);
     final uploadingImage = useState(false);
 
+    ref.listen(messagesProvider(chat.id), (previous, next) {
+      if (next.hasValue) {
+        ref.read(markMessagesAsReadStateProvider.notifier).markAsRead(chat.id);
+      }
+    });
+
     useEffect(() {
       ref.read(markMessagesAsReadStateProvider.notifier).markAsRead(chat.id);
       return null;
