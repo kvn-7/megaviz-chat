@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:megaviz_chat/src/features/auth/presentation/providers/auth_user_provider.dart';
 import 'package:megaviz_chat/src/features/chat/application/providers/use_cases/send_message_use_case_provider.dart';
 import 'package:megaviz_chat/src/features/chat/domain/entities/chat.dart';
 import 'package:megaviz_chat/src/features/cloud_storage/application/providers/use_cases/upload_file_use_case_provider.dart';
@@ -33,12 +34,13 @@ class SendMessageStateProvider extends _$SendMessageStateProvider {
 
         // Send push notification if recipient token is available
         if (recipientToken != null) {
-          final senderName = user?.name;
+          final currentUser = ref.read(authUserProvider).valueOrNull;
+          final senderName = currentUser?.name ?? '';
 
           await _sendPushNotification(
             SendNotification(
               recipientToken: recipientToken,
-              senderName: senderName ?? '',
+              senderName: senderName,
               messageContent: _getMessageContent(message.content),
               chatId: message.chatId,
             ),
@@ -84,12 +86,14 @@ class SendMessageStateProvider extends _$SendMessageStateProvider {
 
             // Send push notification if recipient token is available
             if (recipientToken != null) {
-              final senderName = user?.name;
+              final currentUser = ref.read(authUserProvider).valueOrNull;
+              final senderName = currentUser?.name ?? '';
+
               _sendPushNotification(
                 SendNotification(
                   chatId: chatId,
                   recipientToken: recipientToken,
-                  senderName: senderName ?? '',
+                  senderName: senderName,
                   messageContent: '📷 Image',
                 ),
               );
